@@ -36,7 +36,7 @@
                 <Grid HorizontalOptions="FillAndExpand">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition Height="150"></RowDefinition>
                     </Grid.RowDefinitions>
                 </Grid>
