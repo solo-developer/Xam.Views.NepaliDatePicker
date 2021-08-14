@@ -235,7 +235,7 @@ namespace Xam.Views.NepaliDatePicker
                 FirstDayOfWeek = _dateConverter.ToAD($"{SelectedMonth}/01/{SelectedYear}").dayNumber;
                 InitialDate = (SelectedYear, SelectedMonth, SelectedDay);
             }
-            else if (SelectedYear != 0 && SelectedMonth != 0 && SelectedDay != 0)
+            else if (SelectedYear != 0 && SelectedMonth != 0 && SelectedDay != 0 && !_isCalendarNavigationPerformed)
             {
                 var engEquivalentOfSelectedDate = _dateConverter.ToAD($"{SelectedMonth}/{SelectedDay}/{SelectedYear}");
                 LastDayOfMonth = _nepaliDateData.getLastDayOfMonthNep(SelectedYear, SelectedMonth);
