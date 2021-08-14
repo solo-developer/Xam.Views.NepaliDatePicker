@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Xam.Views.NepaliDatePicker.DatePickerPopupPage"
+                  xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                   xmlns:system="clr-namespace:System;assembly=netstandard"
+                 xmlns:converters="clr-namespace:Xam.Views.NepaliDatePicker.Converters"
+                 BackgroundColor="Transparent">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:IntToMonthNameConverter x:Key="IntToMonth" />
+            <converters:IntToDayNameConverter x:Key="IntToDay" />
+            <converters:SelectedDateToNameConverter x:Key="SelectedDateToName" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Margin="30,10" Spacing="0">
+            <StackLayout BackgroundColor="HotPink" Margin="0" Padding="10,20">
+
+
+                <Label x:Name="yearLabel" Text="{Binding SelectedYear}" FontSize="Medium" TextColor="White"/>
+                <Label FontSize="Large" TextColor="White">
+                    <Label.Text>
+                        <MultiBinding Converter="{StaticResource SelectedDateToName}">
+                            <Binding Path="InitialDate" />
+                            <Binding Path="SelectedDayOfWeek" />
+                        </MultiBinding>
+                    </Label.Text>
+
+
+                </Label>
+
+
+            </StackLayout>
+            <StackLayout BackgroundColor="White" Padding="10">
+                <Grid HorizontalOptions="FillAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="150"></RowDefinition>
+                    </Grid.RowDefinitions>
+                </Grid>
+                <StackLayout Orientation="Horizontal" Grid.Row="0" Margin="0,10,0,15">
+                    <!--header -->
+                    <ImageButton HeightRequest="30" BackgroundColor="Transparent" HorizontalOptions="Start" VerticalOptions="Center" Clicked="PrevMonthImageButton_Clicked">
+                        <ImageButton.Source>
+                            <FontImageSource FontFamily="FontAwesomeSolid"
+                      Color="Black"
+                     Glyph="&#xf104;"/>
+                        </ImageButton.Source>
+                    </ImageButton>
+                    <Label VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" FontSize="Small">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding SelectedMonth,Converter={StaticResource IntToMonth}}" />
+
+                                <Span Text=" "/>
+                                <Span Text="{Binding SelectedYear}" />
+
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <!--<Label Text="August 2021" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" FontAttributes="Bold"/>-->
+                    <ImageButton HeightRequest="30" BackgroundColor="Transparent" HorizontalOptions="End" VerticalOptions="Center" Clicked="NextMonthImageButton_Clicked">
+                        <ImageButton.Source>
+                            <FontImageSource FontFamily="FontAwesomeSolid"
+                      Color="Black"
+                     Glyph="&#xf105;"/>
+                        </ImageButton.Source>
+                    </ImageButton>
+                </StackLayout>
+                <Grid x:Name="dayStackLayout" ColumnSpacing="10" Grid.Row="1" RowSpacing="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+                <!-- footer-->
+                <StackLayout Grid.Row="2" Margin="0,20,0,10" Orientation="Horizontal">
+
+                    <Grid ColumnSpacing="30">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+
+                    <Button BackgroundColor="Transparent" Text="CANCEL" TextColor="HotPink" VerticalOptions="Center" Grid.Column="0" HorizontalOptions="EndAndExpand" Clicked="Cancel_Button_Clicked"/>
+                    <Button BackgroundColor="Transparent" Text="OK" TextColor="HotPink" VerticalOptions="Center" Grid.Column="1" HorizontalOptions="End" Padding="0" Clicked="OK_button_Clicked"/>
+
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+
+    </ContentPage.Content>
+</pages:PopupPage>
