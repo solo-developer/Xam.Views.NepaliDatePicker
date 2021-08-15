@@ -11,14 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Fonts\FontAwesomeSolid.otf" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Fonts\FontAwesomeSolid.otf" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.12" />
     <PackageReference Include="Unity" Version="5.11.10" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />

@@ -6,12 +6,9 @@ using Unity;
 using System;
 using Xamarin.Forms;
 using DateConverter.Core;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 using System.Linq;
 
-[assembly: ExportFont("FontAwesomeSolid.otf", Alias = "FontAwesomeSolid")]
 namespace Xam.Views.NepaliDatePicker
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
