@@ -1,30 +1,25 @@
 ﻿using System;
 using Xam.Views.NepaliDatePicker.ViewModel;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-using static DateConverter.Core.NepaliDate;
+using static DateConverter.Core.EnglishDate;
 
-namespace Xam.Views.NepaliDatePicker
+namespace Xam.Views.NepaliDatePicker.CustomControls
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class NepaliDatePicker : ContentView
+    public class NepaliDatePickerEntry : Entry
     {
         private const string DATE_SELECTED_EVENT = "date_selected";
-        public static readonly BindableProperty CurrentDateProperty = BindableProperty.Create(nameof(CurrentDate), typeof(string), typeof(NepaliDatePicker), defaultValue: string.Empty, propertyChanged: CurrentDatePropertyChanged);
+        public static readonly BindableProperty CurrentDateProperty = BindableProperty.Create(nameof(CurrentDate), typeof(string), typeof(NepaliDatePickerEntry), defaultValue: string.Empty, propertyChanged: CurrentDatePropertyChanged);
 
 
-        public static readonly BindableProperty DateFormatProperty = BindableProperty.Create(nameof(DateFormat), typeof(DateFormats), typeof(NepaliDatePicker), defaultValue: DateFormats.yMd, propertyChanged: DateFormatPropertyChanged);
+        public static readonly BindableProperty DateFormatProperty = BindableProperty.Create(nameof(DateFormat), typeof(DateFormats), typeof(NepaliDatePickerEntry), defaultValue: DateFormats.yMd, propertyChanged: DateFormatPropertyChanged);
 
 
-        public static readonly BindableProperty SeparatorProperty = BindableProperty.Create(nameof(Separator), typeof(Char), typeof(NepaliDatePicker), defaultValue: '-', propertyChanged: SeparatorPropertyChanged);
+        public static readonly BindableProperty SeparatorProperty = BindableProperty.Create(nameof(Separator), typeof(Char), typeof(NepaliDatePickerEntry), defaultValue: '-', propertyChanged: SeparatorPropertyChanged);
 
-
-        public NepaliDatePicker()
+        public NepaliDatePickerEntry()
         {
-            InitializeComponent();
+            this.Focused += openPopupEntry_Focused;
         }
-
-
         public string CurrentDate
         {
             get => (string)GetValue(CurrentDateProperty);
@@ -60,17 +55,18 @@ namespace Xam.Views.NepaliDatePicker
 
         private static void CurrentDatePropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            ((NepaliDatePicker)bindable).SetDateParts(newValue.ToString());
+            ((NepaliDatePickerEntry)bindable).SetDateParts(newValue.ToString());
+            ((NepaliDatePickerEntry)bindable).Text=newValue.ToString();
         }
         private static void DateFormatPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var obj = ((NepaliDatePicker)bindable);
+            var obj = ((NepaliDatePickerEntry)bindable);
             if (!string.IsNullOrWhiteSpace(obj.CurrentDate))
                 obj.SetDateParts(newValue.ToString());
         }
         private static void SeparatorPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var obj = ((NepaliDatePicker)bindable);
+            var obj = ((NepaliDatePickerEntry)bindable);
             if (!string.IsNullOrWhiteSpace(obj.CurrentDate))
                 obj.SetDateParts(newValue.ToString());
         }
@@ -110,7 +106,7 @@ namespace Xam.Views.NepaliDatePicker
 
         private void openPopupEntry_Focused(object sender, FocusEventArgs e)
         {
-            openPopupEntry.Unfocus();
+            this.Unfocus();
             var model = new DateDetailViewModel()
             {
                 SelectedDate = this.SelectedDay,
@@ -125,11 +121,11 @@ namespace Xam.Views.NepaliDatePicker
         {
             MessagingCenter.Unsubscribe<DateDetailViewModel>(this, DATE_SELECTED_EVENT);
             await Navigation.PopModalAsync();
-            this.SelectedDay=data.SelectedDate;
-            this.SelectedMonth=data.SelectedMonth;
-            this.SelectedYear=data.SelectedYear;
+            this.SelectedDay = data.SelectedDate;
+            this.SelectedMonth = data.SelectedMonth;
+            this.SelectedYear = data.SelectedYear;
             var date = GetFormattedDate(data, this.Separator, this.DateFormat);
-            openPopupEntry.Text = date;
+            this.Text = date;
         }
 
         private string GetFormattedDate(DateDetailViewModel data, char separator, DateFormats format)
@@ -146,5 +142,6 @@ namespace Xam.Views.NepaliDatePicker
                     return string.Empty;
             }
         }
+
     }
 }
