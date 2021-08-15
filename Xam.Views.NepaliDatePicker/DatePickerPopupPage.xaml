@@ -11,14 +11,20 @@
             <converters:IntToMonthNameConverter x:Key="IntToMonth" />
             <converters:IntToDayNameConverter x:Key="IntToDay" />
             <converters:SelectedDateToNameConverter x:Key="SelectedDateToName" />
+            <converters:NegateBoolConverter x:Key="NegatedBool" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Margin="30,10" Spacing="0">
             <StackLayout BackgroundColor="HotPink" Margin="0" Padding="10,20">
+                <StackLayout>
+                    <Label x:Name="yearLabel" Text="{Binding SelectedYear}" FontSize="Medium" TextColor="White"/>
+                    <StackLayout.GestureRecognizers>
+                        <!--<TapGestureRecognizer Command="{Binding YearOptionTapCommand}" NumberOfTapsRequired="1"></TapGestureRecognizer>-->
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
 
-
-                <Label x:Name="yearLabel" Text="{Binding SelectedYear}" FontSize="Medium" TextColor="White"/>
                 <Label FontSize="Large" TextColor="White">
                     <Label.Text>
                         <MultiBinding Converter="{StaticResource SelectedDateToName}">
@@ -26,12 +32,9 @@
                             <Binding Path="SelectedDayOfWeek" />
                         </MultiBinding>
                     </Label.Text>
-
-
                 </Label>
-
-
             </StackLayout>
+
             <StackLayout BackgroundColor="White" Padding="10">
                 <Grid HorizontalOptions="FillAndExpand">
                     <Grid.RowDefinitions>
@@ -40,7 +43,25 @@
                         <RowDefinition Height="150"></RowDefinition>
                     </Grid.RowDefinitions>
                 </Grid>
-                <StackLayout Orientation="Horizontal" Grid.Row="0" Margin="0,10,0,15">
+                <StackLayout IsVisible="{Binding ShowYearList}" BackgroundColor="White" Grid.Row="0" Grid.RowSpan="2">
+                    <ScrollView x:Name="yearScrollView" VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
+                        <ListView x:Name="yearListView" ItemsSource="{Binding Years}" ItemTapped="yearListView_ItemTapped" SeparatorVisibility="None">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Label Text="{Binding Year}" TextColor="{Binding Color}" VerticalOptions="Center" HorizontalOptions="Center"></Label>
+                                    </ViewCell>
+
+
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+
+
+                        </ListView>
+                    </ScrollView>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal" Grid.Row="0" Margin="0,10,0,15"  IsVisible="{Binding ShowYearList,Converter={StaticResource NegatedBool}}">
                     <!--header -->
                     <ImageButton HeightRequest="30" BackgroundColor="Transparent" HorizontalOptions="Start" VerticalOptions="Center" Clicked="PrevMonthImageButton_Clicked">
                         <ImageButton.Source>
@@ -69,7 +90,7 @@
                         </ImageButton.Source>
                     </ImageButton>
                 </StackLayout>
-                <Grid x:Name="dayStackLayout" ColumnSpacing="10" Grid.Row="1" RowSpacing="10">
+                <Grid x:Name="dayStackLayout" ColumnSpacing="10" Grid.Row="1" RowSpacing="10"  IsVisible="{Binding ShowYearList,Converter={StaticResource NegatedBool}}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>

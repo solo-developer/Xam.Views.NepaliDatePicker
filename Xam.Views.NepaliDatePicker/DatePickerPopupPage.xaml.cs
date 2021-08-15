@@ -6,6 +6,10 @@ using Unity;
 using System;
 using Xamarin.Forms;
 using DateConverter.Core;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
+using System.Linq;
 
 [assembly: ExportFont("FontAwesomeSolid.otf", Alias = "FontAwesomeSolid")]
 namespace Xam.Views.NepaliDatePicker
@@ -34,8 +38,20 @@ namespace Xam.Views.NepaliDatePicker
 
             SetStartAndEndMonthDetail();
             InitCalendarView();
-
+            Years = new ObservableCollection<AvailableYear>();
             BindingContext = this;
+        }
+
+        private ObservableCollection<AvailableYear> _years;
+
+        public ObservableCollection<AvailableYear> Years
+        {
+            get => _years;
+            set
+            {
+                _years = value;
+                OnPropertyChanged(nameof(Years));
+            }
         }
         private bool _isCalendarNavigationPerformed = false;
 
@@ -136,6 +152,17 @@ namespace Xam.Views.NepaliDatePicker
             }
         }
 
+        private bool _showYearList;
+        public bool ShowYearList
+        {
+            get => _showYearList;
+            set
+            {
+                _showYearList = value;
+                OnPropertyChanged(nameof(ShowYearList));
+            }
+        }
+
         private void InitCalendarView()
         {
             dayStackLayout.Children.Clear();
@@ -204,6 +231,7 @@ namespace Xam.Views.NepaliDatePicker
             int dayIndex = Grid.GetColumn(frame);
             SelectedDayOfWeek = dayIndex + 1;
             frame.BackgroundColor = SelectedDateColor;
+            _isCalendarNavigationPerformed = false;
 
         }
 
@@ -264,7 +292,17 @@ namespace Xam.Views.NepaliDatePicker
             _isCalendarNavigationPerformed = true;
             SetStartAndEndMonthDetail();
             InitCalendarView();
+        }
 
+        private void InitAvailableYears()
+        {
+            Years.Clear();
+            for (var i = 2000; i < 2100; i++)
+            {
+                var color = i == SelectedYear ? SelectedDateColor : Color.Black;
+                var fontSize = i == SelectedYear ? NamedSize.Large : NamedSize.Medium;
+                Years.Add(new AvailableYear() { Year = i, Color = color.ToHex(), FontSize = fontSize });
+            };
         }
 
         private void NextMonthImageButton_Clicked(object sender, EventArgs e)
@@ -294,6 +332,35 @@ namespace Xam.Views.NepaliDatePicker
         private async void Cancel_Button_Clicked(object sender, EventArgs e)
         {
             await Navigation.PopModalAsync();
+        }
+
+
+        private void yearListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            var selectedItem = e.Item as AvailableYear;
+            if (selectedItem == null)
+            {
+                return;
+            }
+            this.SelectedYear = selectedItem.Year;
+            var totalDaysInMonth = _nepaliDateData.getLastDayOfMonthNep(selectedItem.Year, SelectedMonth);
+
+            if (totalDaysInMonth < SelectedDay)
+                this.SelectedDay = totalDaysInMonth;
+            this.InitialDate = (selectedItem.Year, SelectedMonth, SelectedDay);
+            _isCalendarNavigationPerformed = false;
+            this.ShowYearList = false;
+            SetStartAndEndMonthDetail();
+            InitCalendarView();
+          
+        }
+
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            InitAvailableYears();
+            ShowYearList = true;
+            var selectedYear = Years.Where(a => a.Year == SelectedYear).Single();
+            yearListView.ScrollTo(selectedYear, ScrollToPosition.Center, true);
         }
     }
 }
