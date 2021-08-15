@@ -300,8 +300,8 @@ namespace Xam.Views.NepaliDatePicker
             for (var i = 2000; i < 2100; i++)
             {
                 var color = i == SelectedYear ? SelectedDateColor : Color.Black;
-                var fontSize = i == SelectedYear ? NamedSize.Large : NamedSize.Medium;
-                Years.Add(new AvailableYear() { Year = i, Color = color.ToHex(), FontSize = fontSize });
+                var fontSize = i == SelectedYear ?(double)22 : (double)16;
+                Years.Add(new AvailableYear() { Year = i, Color = color.ToHex(), TextSize = fontSize });
             };
         }
 

@@ -9,6 +9,6 @@ namespace Xam.Views.NepaliDatePicker.ViewModel
     {
         public int Year { get; set; }
         public String Color { get; set; }
-        public NamedSize FontSize { get; set; }
+        public double TextSize { get; set; }
     }
 }

@@ -49,7 +49,7 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
-                                        <Label Text="{Binding Year}" TextColor="{Binding Color}" VerticalOptions="Center" HorizontalOptions="Center"></Label>
+                                        <Label Text="{Binding Year}" TextColor="{Binding Color}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="{Binding TextSize}" Margin="10"></Label>
                                     </ViewCell>
 
 
