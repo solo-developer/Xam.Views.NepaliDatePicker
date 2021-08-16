@@ -32,7 +32,6 @@ namespace DateConverter.Core
             container.RegisterType<iConversionStartDateData, ConversionStartDate5YearsInterval>();
             container.RegisterType<iDateConverter, DateConverter.Core.Library.DateConverter>();
             container.RegisterType<iDateFunctions, DateFunctions>();
-            container.RegisterType<iFiscalYearFunctions, FiscalYearFunctions>();
             container.RegisterType<iNepaliDateData, NepaliDateData>();
         }
        
