@@ -20,6 +20,11 @@ namespace Xam.Views.NepaliDatePicker.CustomControls
         {
             this.Focused += openPopupEntry_Focused;
         }
+
+        ~NepaliDatePickerEntry()
+        {
+            this.Focused -= openPopupEntry_Focused;
+        }
         public string CurrentDate
         {
             get => (string)GetValue(CurrentDateProperty);
@@ -56,7 +61,7 @@ namespace Xam.Views.NepaliDatePicker.CustomControls
         private static void CurrentDatePropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             ((NepaliDatePickerEntry)bindable).SetDateParts(newValue.ToString());
-            ((NepaliDatePickerEntry)bindable).Text=newValue.ToString();
+            ((NepaliDatePickerEntry)bindable).Text = newValue.ToString();
         }
         private static void DateFormatPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
@@ -133,11 +138,11 @@ namespace Xam.Views.NepaliDatePicker.CustomControls
             switch (format)
             {
                 case DateFormats.mDy:
-                    return $"{data.SelectedMonth}{separator}{data.SelectedDate}{separator}{data.SelectedYear}";
+                    return $"{data.SelectedMonth.ToString("00")}{separator}{data.SelectedDate.ToString("00")}{separator}{data.SelectedYear}";
                 case DateFormats.dMy:
-                    return $"{data.SelectedDate}{separator}{data.SelectedMonth}{separator}{data.SelectedYear}";
+                    return $"{data.SelectedDate.ToString("00")}{separator}{data.SelectedMonth.ToString("00")}{separator}{data.SelectedYear}";
                 case DateFormats.yMd:
-                    return $"{data.SelectedYear}{separator}{data.SelectedMonth}{separator}{data.SelectedDate}";
+                    return $"{data.SelectedYear}{separator}{data.SelectedMonth.ToString("00")}{separator}{data.SelectedDate.ToString("00")}";
                 default:
                     return string.Empty;
             }
