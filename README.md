@@ -34,6 +34,20 @@ This plugin is a customisation on existing Entry . So, you can use all existing 
  
  Value defaults to yMd
  
+ ## Get Notified on Every Date Selection ##    
+ 
+ Whenever date selection is made , event is published through Messaging Center. You can subscribe to **date_selected** event and perform custom actions.
+ 
+     MessagingCenter.Subscribe<Xam.Plugins.NepaliDatePicker.Dto.DateDetailDto>(this, "date_selected", OnDateSelected);
+
+ OnDateSelected is a callback function and can be used as 
+ 
+      private void OnDateSelected(Xam.Plugins.NepaliDatePicker.Dto.DateDetailDto data)
+      {          
+       // your logic 
+      }
+  DateDetailDto is a class that has three properties viz. SelectedDate ,SelectedYear and SelectedMonth.
+
 
 **Working Screenshot**  
 ![alt text][screenshot]
