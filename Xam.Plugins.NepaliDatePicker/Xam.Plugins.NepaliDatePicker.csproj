@@ -2,6 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Niroj Dahal</Authors>
+    <Company />
+    <RepositoryUrl>https://github.com/solo-developer/Xam.Views.NepaliDatePicker</RepositoryUrl>
+    <Description>Nepali Date Picker Plugin for Xamarin Forms</Description>
+    <Copyright>Niroj Dahal</Copyright>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

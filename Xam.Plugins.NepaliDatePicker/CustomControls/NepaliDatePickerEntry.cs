@@ -1,7 +1,7 @@
 ﻿using System;
 using Xam.Plugins.NepaliDatePicker.Dto;
 using Xamarin.Forms;
-using static DateConverter.Core.EnglishDate;
+using static DateConverter.Core.NepaliDate;
 
 namespace Xam.Plugins.NepaliDatePicker.CustomControls
 {

@@ -10,7 +10,7 @@
             <Label Text="Nepali Date Picker" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
         </Frame>
         <!--<CustomViews:NepaliDatePicker VerticalOptions="Center"/>-->
-        <CustomControls:NepaliDatePickerEntry DateFormat="mDy" Separator="/" CurrentDate="04/31/2078"></CustomControls:NepaliDatePickerEntry>
+        <CustomControls:NepaliDatePickerEntry DateFormat="mDy" Separator="/" CurrentDate="04/31/2078"/>
     </StackLayout>
 
 </ContentPage>

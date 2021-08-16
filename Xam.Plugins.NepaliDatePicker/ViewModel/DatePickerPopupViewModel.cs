@@ -134,9 +134,9 @@ namespace Xam.Plugins.NepaliDatePicker.ViewModel
         {
             MessagingCenter.Send<DateDetailDto>(new DateDetailDto()
             {
-                SelectedDate = SelectedDay,
-                SelectedMonth = SelectedMonth,
-                SelectedYear = SelectedYear
+                SelectedDate = InitialDate.day,
+                SelectedMonth = InitialDate.month,
+                SelectedYear = InitialDate.year
             }, "date_selected");
         }
 
