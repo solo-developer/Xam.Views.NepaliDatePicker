@@ -52,4 +52,4 @@ This plugin is a customisation on existing Entry . So, you can use all existing 
 **Working Screenshot**  
 ![alt text][screenshot]
 
-[screenshot]: https://github.com/solo-developer/Xam.Views.NepaliDatePicker/blob/main/GIF-210816_112709.gif "Xamarin Nepali DatePicker"
+[screenshot]: https://github.com/solo-developer/Xam.Views.NepaliDatePicker/blob/main/GIF-210816_205455.gif "Xamarin Nepali DatePicker"
