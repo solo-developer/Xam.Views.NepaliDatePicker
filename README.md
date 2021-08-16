@@ -3,7 +3,7 @@ Nepali Date Picker for Xamarin Forms
 
 **Installation**   
 
-```  Install-Package Xam.Plugins.NepaliDatePicker -Version 1.0.0 ```
+```  Install-Package Xam.Plugins.NepaliDatePicker ```
 
 **Usage**   
 
