@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31521.260
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31605.320
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xam.Views.NepaliDatePicker.Android", "Xam.Views.NepaliDatePicker.Android\Xam.Views.NepaliDatePicker.Android.csproj", "{56508DF1-89D8-4E96-9DDD-22D2C857F1E2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xam.Views.NepaliDatePicker.iOS", "Xam.Views.NepaliDatePicker.iOS\Xam.Views.NepaliDatePicker.iOS.csproj", "{26D06287-C9A7-4902-BA73-93237D2E4988}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xam.Views.NepaliDatePicker", "Xam.Views.NepaliDatePicker\Xam.Views.NepaliDatePicker.csproj", "{FEAAF046-45D5-4B9F-B25E-2CF0F7F38115}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xam.Views.NepaliDatePicker", "Xam.Views.NepaliDatePicker\Xam.Views.NepaliDatePicker.csproj", "{FEAAF046-45D5-4B9F-B25E-2CF0F7F38115}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xam.Plugins.NepaliDatePicker", "Xam.Plugins.NepaliDatePicker\Xam.Plugins.NepaliDatePicker.csproj", "{A5761B2A-3553-44BF-94F7-DE3D2F1DC23D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +75,18 @@ Global
 		{FEAAF046-45D5-4B9F-B25E-2CF0F7F38115}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{FEAAF046-45D5-4B9F-B25E-2CF0F7F38115}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{FEAAF046-45D5-4B9F-B25E-2CF0F7F38115}.Release|iPhoneSimulator.Deploy.0 = Release|Any CPU
+		{A5761B2A-3553-44BF-94F7-DE3D2F1DC23D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5761B2A-3553-44BF-94F7-DE3D2F1DC23D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5761B2A-3553-44BF-94F7-DE3D2F1DC23D}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{A5761B2A-3553-44BF-94F7-DE3D2F1DC23D}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{A5761B2A-3553-44BF-94F7-DE3D2F1DC23D}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{A5761B2A-3553-44BF-94F7-DE3D2F1DC23D}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{A5761B2A-3553-44BF-94F7-DE3D2F1DC23D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5761B2A-3553-44BF-94F7-DE3D2F1DC23D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5761B2A-3553-44BF-94F7-DE3D2F1DC23D}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{A5761B2A-3553-44BF-94F7-DE3D2F1DC23D}.Release|iPhone.Build.0 = Release|Any CPU
+		{A5761B2A-3553-44BF-94F7-DE3D2F1DC23D}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{A5761B2A-3553-44BF-94F7-DE3D2F1DC23D}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

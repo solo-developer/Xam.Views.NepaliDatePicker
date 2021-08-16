@@ -2,7 +2,7 @@
 using System.Globalization;
 using Xamarin.Forms;
 
-namespace Xam.Views.NepaliDatePicker.Converters
+namespace Xam.Plugins.NepaliDatePicker.Converters
 {
     public class NegateBoolConverter : IValueConverter
     {

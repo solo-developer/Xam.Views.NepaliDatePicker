@@ -1,9 +1,9 @@
 ﻿using System;
-using Xam.Views.NepaliDatePicker.Dto;
+using Xam.Plugins.NepaliDatePicker.Dto;
 using Xamarin.Forms;
 using static DateConverter.Core.EnglishDate;
 
-namespace Xam.Views.NepaliDatePicker.CustomControls
+namespace Xam.Plugins.NepaliDatePicker.CustomControls
 {
     public class NepaliDatePickerEntry : Entry
     {

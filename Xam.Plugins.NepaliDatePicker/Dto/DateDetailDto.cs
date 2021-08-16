@@ -1,4 +1,4 @@
-﻿namespace Xam.Views.NepaliDatePicker.Dto
+﻿namespace Xam.Plugins.NepaliDatePicker.Dto
 {
     public class DateDetailDto
     {

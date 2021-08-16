@@ -1,11 +1,11 @@
-﻿using Xam.Views.NepaliDatePicker.ViewModel;
+﻿using Xam.Plugins.NepaliDatePicker.ViewModel;
 using Xamarin.Forms.Xaml;
 using System;
 using Xamarin.Forms;
 using System.Linq;
-using Xam.Views.NepaliDatePicker.Dto;
+using Xam.Plugins.NepaliDatePicker.Dto;
 
-namespace Xam.Views.NepaliDatePicker
+namespace Xam.Plugins.NepaliDatePicker
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DatePickerPopupPage : Rg.Plugins.Popup.Pages.PopupPage

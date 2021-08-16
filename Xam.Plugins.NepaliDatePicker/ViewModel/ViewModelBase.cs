@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Xam.Views.NepaliDatePicker.ViewModel
+namespace Xam.Plugins.NepaliDatePicker.ViewModel
 {
     public abstract class ViewModelBase : INotifyPropertyChanged
     {

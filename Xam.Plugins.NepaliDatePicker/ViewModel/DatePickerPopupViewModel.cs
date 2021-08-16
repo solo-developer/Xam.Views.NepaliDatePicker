@@ -1,12 +1,12 @@
 ﻿using DateConverter.Core;
 using DateConverter.Core.Library;
 using System.Collections.ObjectModel;
-using Xam.Views.NepaliDatePicker.Dto;
+using Xam.Plugins.NepaliDatePicker.Dto;
 using Xamarin.Forms;
 using Unity;
 using System.Linq;
 
-namespace Xam.Views.NepaliDatePicker.ViewModel
+namespace Xam.Plugins.NepaliDatePicker.ViewModel
 {
     public class DatePickerPopupViewModel : ViewModelBase
     {

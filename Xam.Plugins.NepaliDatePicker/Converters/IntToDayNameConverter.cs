@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Text;
 using Xamarin.Forms;
 
-namespace Xam.Views.NepaliDatePicker.Converters
+namespace Xam.Plugins.NepaliDatePicker.Converters
 {
     public class IntToDayNameConverter : IValueConverter
     {

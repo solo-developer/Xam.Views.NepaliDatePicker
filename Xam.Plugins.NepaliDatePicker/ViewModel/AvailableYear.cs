@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Xam.Views.NepaliDatePicker.ViewModel
+namespace Xam.Plugins.NepaliDatePicker.ViewModel
 {
     public class AvailableYear
     {
