@@ -1,5 +1,5 @@
 ﻿using System;
-using Xam.Views.NepaliDatePicker.ViewModel;
+using Xam.Views.NepaliDatePicker.Dto;
 using Xamarin.Forms;
 using static DateConverter.Core.EnglishDate;
 
@@ -112,19 +112,19 @@ namespace Xam.Views.NepaliDatePicker.CustomControls
         private void openPopupEntry_Focused(object sender, FocusEventArgs e)
         {
             this.Unfocus();
-            var model = new DateDetailViewModel()
+            var model = new DateDetailDto()
             {
                 SelectedDate = this.SelectedDay,
                 SelectedMonth = this.SelectedMonth,
                 SelectedYear = this.SelectedYear,
             };
-            MessagingCenter.Subscribe<DateDetailViewModel>(this, DATE_SELECTED_EVENT, OnDateSelected);
+            MessagingCenter.Subscribe<DateDetailDto>(this, DATE_SELECTED_EVENT, OnDateSelected);
             Navigation.PushModalAsync(new DatePickerPopupPage(model));
         }
 
-        private async void OnDateSelected(DateDetailViewModel data)
+        private async void OnDateSelected(DateDetailDto data)
         {
-            MessagingCenter.Unsubscribe<DateDetailViewModel>(this, DATE_SELECTED_EVENT);
+            MessagingCenter.Unsubscribe<DateDetailDto>(this, DATE_SELECTED_EVENT);
             await Navigation.PopModalAsync();
             this.SelectedDay = data.SelectedDate;
             this.SelectedMonth = data.SelectedMonth;
@@ -133,7 +133,7 @@ namespace Xam.Views.NepaliDatePicker.CustomControls
             this.Text = date;
         }
 
-        private string GetFormattedDate(DateDetailViewModel data, char separator, DateFormats format)
+        private string GetFormattedDate(DateDetailDto data, char separator, DateFormats format)
         {
             switch (format)
             {

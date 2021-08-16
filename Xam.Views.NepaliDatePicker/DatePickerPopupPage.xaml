@@ -4,6 +4,7 @@
              x:Class="Xam.Views.NepaliDatePicker.DatePickerPopupPage"
                   xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
                  xmlns:converters="clr-namespace:Xam.Views.NepaliDatePicker.Converters"
+                 xmlns:viewModel="clr-namespace:Xam.Views.NepaliDatePicker.ViewModel"
                  BackgroundColor="Transparent">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -14,8 +15,8 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Margin="30,10" Spacing="0">
-            <StackLayout BackgroundColor="HotPink" Margin="0" Padding="10,20">
+        <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Margin="30,10" Spacing="0" x:DataType="viewModel:DatePickerPopupViewModel">
+            <StackLayout BackgroundColor="HotPink" Margin="0" Padding="10,20" >
                 <StackLayout>
                     <Label x:Name="yearLabel" Text="{Binding SelectedYear}" FontSize="Medium" TextColor="White"/>
                     <StackLayout.GestureRecognizers>                      
@@ -43,10 +44,10 @@
                 </Grid>
                 <StackLayout IsVisible="{Binding ShowYearList}" BackgroundColor="White" Grid.Row="0" Grid.RowSpan="2">
                     <ScrollView x:Name="yearScrollView" VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
-                        <ListView x:Name="yearListView" ItemsSource="{Binding Years}" ItemTapped="yearListView_ItemTapped" SeparatorVisibility="None">
+                        <ListView x:Name="yearListView" ItemsSource="{Binding Years}" ItemTapped="yearListView_ItemTapped" SeparatorVisibility="None" CachingStrategy="RecycleElement">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <ViewCell>
+                                    <ViewCell x:DataType="viewModel:AvailableYear">
                                         <Label Text="{Binding Year}" TextColor="{Binding Color}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="{Binding TextSize}" Margin="10"></Label>
                                     </ViewCell>
                                 </DataTemplate>

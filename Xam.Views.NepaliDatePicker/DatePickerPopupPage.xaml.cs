@@ -1,174 +1,35 @@
-﻿using DateConverter.Core.Library;
-using System.ComponentModel;
-using Xam.Views.NepaliDatePicker.ViewModel;
+﻿using Xam.Views.NepaliDatePicker.ViewModel;
 using Xamarin.Forms.Xaml;
-using Unity;
 using System;
 using Xamarin.Forms;
-using DateConverter.Core;
-using System.Collections.ObjectModel;
 using System.Linq;
+using Xam.Views.NepaliDatePicker.Dto;
 
 namespace Xam.Views.NepaliDatePicker
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class DatePickerPopupPage : Rg.Plugins.Popup.Pages.PopupPage, INotifyPropertyChanged
+    public partial class DatePickerPopupPage : Rg.Plugins.Popup.Pages.PopupPage
     {
         private readonly Color SelectedDateColor = Color.HotPink;
-        private readonly iNepaliDateData _nepaliDateData;
-        private readonly iDateConverter _dateConverter;
-        private readonly string[] DayFirstLetters = new string[] { "S", "M", "T", "W", "T", "F", "S" };
 
-        public DatePickerPopupPage(DateDetailViewModel model)
+        public DatePickerPopupPage(DateDetailDto model)
         {
-
             InitializeComponent();
-            this.SelectedDay = model.SelectedDate;
-            this.SelectedMonth = model.SelectedMonth;
-            this.SelectedYear = model.SelectedYear;
-
-            InitialDate = (model.SelectedYear, model.SelectedMonth, model.SelectedDate);
-            var unityContainer = UnityFactory.getUnityContainer();
-
-            this._nepaliDateData = unityContainer.Resolve<iNepaliDateData>();
-            this._dateConverter = unityContainer.Resolve<iDateConverter>();
-
-            SetStartAndEndMonthDetail();
+            var vm = new DatePickerPopupViewModel(model);
+            BindingContext = vm;
             InitCalendarView();
-            Years = new ObservableCollection<AvailableYear>();
-            BindingContext = this;
-        }
-
-        private ObservableCollection<AvailableYear> _years;
-
-        public ObservableCollection<AvailableYear> Years
-        {
-            get => _years;
-            set
-            {
-                _years = value;
-                OnPropertyChanged(nameof(Years));
-            }
-        }
-        private bool _isCalendarNavigationPerformed = false;
-
-        private (int year, int month, int day) _initialDate;
-        public (int year, int month, int day) InitialDate
-        {
-            get => _initialDate;
-            set
-            {
-                if (_initialDate != value)
-                {
-                    _initialDate = value;
-                    OnPropertyChanged(nameof(InitialDate));
-                }
-            }
-        }
-        private int _selectedYear;
-        public int SelectedYear
-        {
-            get => _selectedYear;
-            set
-            {
-                if (value != _selectedYear)
-                {
-                    _selectedYear = value;
-                    OnPropertyChanged(nameof(SelectedYear));
-                }
-            }
-        }
-        private int _selectedMonth;
-        public int SelectedMonth
-        {
-            get => _selectedMonth;
-            set
-            {
-                if (value != _selectedMonth)
-                {
-                    _selectedMonth = value;
-                    OnPropertyChanged(nameof(SelectedMonth));
-                }
-            }
-        }
-
-        private int _selectedDay;
-        public int SelectedDay
-        {
-            get => _selectedDay;
-            set
-            {
-                if (value != _selectedDay)
-                {
-                    _selectedDay = value;
-                    OnPropertyChanged(nameof(SelectedDay));
-                }
-            }
-        }
-
-
-        private int _lastDayOfMonth;
-        public int LastDayOfMonth
-        {
-            get => _lastDayOfMonth;
-            set
-            {
-                if (value != _lastDayOfMonth)
-                {
-                    _lastDayOfMonth = value;
-                    OnPropertyChanged(nameof(LastDayOfMonth));
-                }
-            }
-        }
-
-        private int _firstDayOfWeek;
-        public int FirstDayOfWeek
-        {
-            get => _firstDayOfWeek;
-            set
-            {
-                if (value != _firstDayOfWeek)
-                {
-                    _firstDayOfWeek = value;
-                    OnPropertyChanged(nameof(FirstDayOfWeek));
-                }
-            }
-        }
-
-        private int _selectedDayOfWeek;
-        public int SelectedDayOfWeek
-        {
-            get => _selectedDayOfWeek;
-            set
-            {
-                if (value != _selectedDayOfWeek)
-                {
-                    _selectedDayOfWeek = value;
-                    OnPropertyChanged(nameof(SelectedDayOfWeek));
-                }
-            }
-        }
-
-        private bool _showYearList;
-        public bool ShowYearList
-        {
-            get => _showYearList;
-            set
-            {
-                _showYearList = value;
-                OnPropertyChanged(nameof(ShowYearList));
-            }
         }
 
         private void InitCalendarView()
         {
+            var vm = (DatePickerPopupViewModel)BindingContext;
             dayStackLayout.Children.Clear();
 
             for (var i = 0; i < 7; i++)
             {
                 var label = new Label()
                 {
-                    Text = $"{DayFirstLetters[i]}",
+                    Text = $"{vm.DayFirstLetters[i]}",
                     FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Center,
@@ -179,9 +40,9 @@ namespace Xam.Views.NepaliDatePicker
                 dayStackLayout.Children.Add(label);
             }
             int startRowIndex = 1;
-            int startColumnIndex = FirstDayOfWeek - 1;
-            var isSameYearAndMonthAsSelected = SelectedYear == InitialDate.year && SelectedMonth == InitialDate.month;
-            for (var i = 1; i <= LastDayOfMonth; i++)
+            int startColumnIndex = vm.FirstDayOfWeek - 1;
+            var isSameYearAndMonthAsSelected = vm.SelectedYear == vm.InitialDate.year && vm.SelectedMonth == vm.InitialDate.month;
+            for (var i = 1; i <= vm.LastDayOfMonth; i++)
             {
                 var label = new Label()
                 {
@@ -197,7 +58,7 @@ namespace Xam.Views.NepaliDatePicker
                 var frame = new Frame() { CornerRadius = 30, Padding = 0 };
                 frame.Content = label;
                 frame.BackgroundColor = Color.Transparent;
-                if (i == SelectedDay && isSameYearAndMonthAsSelected)
+                if (i == vm.SelectedDay && isSameYearAndMonthAsSelected)
                 {
                     frame.BackgroundColor = SelectedDateColor;
                 }
@@ -216,6 +77,7 @@ namespace Xam.Views.NepaliDatePicker
 
         private void OnDateSelected(View arg1, object arg2)
         {
+            var vm = (DatePickerPopupViewModel)BindingContext;
             var frame = arg1 as Frame;
             if (frame == null)
                 return;
@@ -223,12 +85,12 @@ namespace Xam.Views.NepaliDatePicker
             if (string.IsNullOrEmpty(dayLabel.Text))
                 return;
             RemoveDateSelectionVisualDisplay();
-            SelectedDay = Convert.ToInt32(dayLabel.Text);
-            InitialDate = (SelectedYear, SelectedMonth, SelectedDay);
+            ((DatePickerPopupViewModel)BindingContext).SelectedDay = Convert.ToInt32(dayLabel.Text);
+            ((DatePickerPopupViewModel)BindingContext).InitialDate = (vm.SelectedYear, vm.SelectedMonth, vm.SelectedDay);
             int dayIndex = Grid.GetColumn(frame);
-            SelectedDayOfWeek = dayIndex + 1;
+            ((DatePickerPopupViewModel)BindingContext).SelectedDayOfWeek = dayIndex + 1;
             frame.BackgroundColor = SelectedDateColor;
-            _isCalendarNavigationPerformed = false;
+            ((DatePickerPopupViewModel)BindingContext).UnsetCalendarNavigation();
 
         }
 
@@ -246,91 +108,29 @@ namespace Xam.Views.NepaliDatePicker
             }
         }
 
-        private void SetStartAndEndMonthDetail()
-        {
-            bool isPageOpenedAtFirstWithoutDatePassed = SelectedYear == 0 || SelectedMonth == 0 || SelectedDay == 0;
-            if (isPageOpenedAtFirstWithoutDatePassed)
-            {
-                var nepaliDateEquivalentOfToday = _dateConverter.ToBS(System.DateTime.Now, NepaliDate.DateFormats.yMd);
-                LastDayOfMonth = nepaliDateEquivalentOfToday.npDaysInMonth;
-                SelectedYear = nepaliDateEquivalentOfToday.npYear;
-                SelectedMonth = nepaliDateEquivalentOfToday.npMonth;
-                SelectedDay = nepaliDateEquivalentOfToday.npDay;
-                SelectedDayOfWeek = nepaliDateEquivalentOfToday.dayNumber;
-                FirstDayOfWeek = _dateConverter.ToAD($"{SelectedMonth}/01/{SelectedYear}").dayNumber;
-                InitialDate = (SelectedYear, SelectedMonth, SelectedDay);
-            }
-            else if (SelectedYear != 0 && SelectedMonth != 0 && SelectedDay != 0 && !_isCalendarNavigationPerformed)
-            {
-                var engEquivalentOfSelectedDate = _dateConverter.ToAD($"{SelectedMonth}/{SelectedDay}/{SelectedYear}");
-                LastDayOfMonth = _nepaliDateData.getLastDayOfMonthNep(SelectedYear, SelectedMonth);
-                SelectedDayOfWeek = engEquivalentOfSelectedDate.dayNumber;
-                FirstDayOfWeek = _dateConverter.ToAD($"{SelectedMonth}/01/{SelectedYear}").dayNumber;
-                InitialDate = (SelectedYear, SelectedMonth, SelectedDay);
-            }
-            else if (_isCalendarNavigationPerformed)
-            {
-                string firstDayOfMonth = $"{SelectedMonth}/01/{SelectedYear}";
-                var englishEquivalentDate = _dateConverter.ToAD(firstDayOfMonth);
-                FirstDayOfWeek = englishEquivalentDate.dayNumber;
-                LastDayOfMonth = _nepaliDateData.getLastDayOfMonthNep(SelectedYear, SelectedMonth);
-            }
-        }
-
         private void PrevMonthImageButton_Clicked(object sender, EventArgs e)
         {
-            if (SelectedMonth == 1)
-            {
-                SelectedMonth = 12;
-                SelectedYear = SelectedYear - 1;
-            }
-            else
-                SelectedMonth -= 1;
-            _isCalendarNavigationPerformed = true;
-            SetStartAndEndMonthDetail();
+            var vm = (DatePickerPopupViewModel)BindingContext;
+            vm.SelectPreviousMonth();
             InitCalendarView();
-        }
-
-        private void InitAvailableYears()
-        {
-            Years.Clear();
-            for (var i = 2000; i < 2100; i++)
-            {
-                var color = i == SelectedYear ? SelectedDateColor : Color.Black;
-                var fontSize = i == SelectedYear ?(double)22 : (double)16;
-                Years.Add(new AvailableYear() { Year = i, Color = color.ToHex(), TextSize = fontSize });
-            };
         }
 
         private void NextMonthImageButton_Clicked(object sender, EventArgs e)
         {
-            if (SelectedMonth == 12)
-            {
-                SelectedMonth = 1;
-                SelectedYear += 1;
-            }
-            else
-                SelectedMonth += 1;
-
-            _isCalendarNavigationPerformed = true;
-            SetStartAndEndMonthDetail();
+            var vm = (DatePickerPopupViewModel)BindingContext;
+            vm.SelectNextMonth();
             InitCalendarView();
         }
 
         private void OK_button_Clicked(object sender, EventArgs e)
         {
-            MessagingCenter.Send<DateDetailViewModel>(new DateDetailViewModel()
-            {
-                SelectedDate = SelectedDay,
-                SelectedMonth = SelectedMonth,
-                SelectedYear = SelectedYear
-            }, "date_selected");
+            var vm = (DatePickerPopupViewModel)BindingContext;
+            vm.PublishDate();
         }
         private async void Cancel_Button_Clicked(object sender, EventArgs e)
         {
             await Navigation.PopModalAsync();
         }
-
 
         private void yearListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
@@ -339,25 +139,17 @@ namespace Xam.Views.NepaliDatePicker
             {
                 return;
             }
-            this.SelectedYear = selectedItem.Year;
-            var totalDaysInMonth = _nepaliDateData.getLastDayOfMonthNep(selectedItem.Year, SelectedMonth);
-
-            if (totalDaysInMonth < SelectedDay)
-                this.SelectedDay = totalDaysInMonth;
-            this.InitialDate = (selectedItem.Year, SelectedMonth, SelectedDay);
-            _isCalendarNavigationPerformed = false;
-            this.ShowYearList = false;
-            SetStartAndEndMonthDetail();
+            var vm = (DatePickerPopupViewModel)BindingContext;
+            vm.SelectYear(selectedItem.Year);
             InitCalendarView();
-          
         }
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            InitAvailableYears();
-            ShowYearList = true;
-            var selectedYear = Years.Where(a => a.Year == SelectedYear).Single();
-            yearListView.ScrollTo(selectedYear, ScrollToPosition.Center, true);
+            var vm = (DatePickerPopupViewModel)BindingContext;
+            vm.OnYearListShown();           
+            var selectedYear = vm.Years.Where(a => a.Year == vm.SelectedYear).Single();
+            yearListView.ScrollTo(selectedYear, ScrollToPosition.Start, false);
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace Xam.Views.NepaliDatePicker.ViewModel
+﻿namespace Xam.Views.NepaliDatePicker.Dto
 {
-    public class DateDetailViewModel
+    public class DateDetailDto
     {
         public int SelectedDate { get; set; }
         public int SelectedYear { get; set; }
