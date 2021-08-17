@@ -8,6 +8,9 @@
     <Description>Nepali Date Picker Plugin for Xamarin Forms</Description>
     <Copyright>Niroj Dahal</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReleaseNotes>Issue Fix :
+Month navigated through forward/backward buttons were sent in events although date in that navigated month was not selected.</PackageReleaseNotes>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

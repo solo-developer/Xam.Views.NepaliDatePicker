@@ -5,6 +5,8 @@ using Xam.Plugins.NepaliDatePicker.Dto;
 using Xamarin.Forms;
 using Unity;
 using System.Linq;
+using Xam.Plugins.NepaliDatePicker.Enums;
+using Xam.Plugins.NepaliDatePicker.Library;
 
 namespace Xam.Plugins.NepaliDatePicker.ViewModel
 {
@@ -13,12 +15,14 @@ namespace Xam.Plugins.NepaliDatePicker.ViewModel
         private readonly Color SelectedDateColor = Color.HotPink;
         private readonly iNepaliDateData _nepaliDateData;
         private readonly iDateConverter _dateConverter;
-        public readonly string[] DayFirstLetters = new string[] { "S", "M", "T", "W", "T", "F", "S" };
+       
         public DatePickerPopupViewModel(DateDetailDto model)
         {
             this.SelectedDay = model.SelectedDate;
             this.SelectedMonth = model.SelectedMonth;
             this.SelectedYear = model.SelectedYear;
+            this.DisplayLanguage = model.DisplayLanguage;
+            IsEnglishLanguage = model.DisplayLanguage == Language.English;
 
             InitialDate = (model.SelectedYear, model.SelectedMonth, model.SelectedDate);
             var unityContainer = UnityFactory.getUnityContainer();
@@ -28,6 +32,17 @@ namespace Xam.Plugins.NepaliDatePicker.ViewModel
             SetStartAndEndMonthDetail();
             Years = new ObservableCollection<AvailableYear>();
             InitAvailableYears();
+        }
+
+        public bool IsEnglishLanguage
+        {
+            get => GetValue<bool>();
+            set => SetValue(value);
+        }
+        public Language DisplayLanguage
+        {
+            get => GetValue<Language>();
+            set => SetValue(value);
         }
 
         public ObservableCollection<AvailableYear> Years
@@ -159,7 +174,7 @@ namespace Xam.Plugins.NepaliDatePicker.ViewModel
             {
                 var color = i == SelectedYear ? SelectedDateColor : Color.Black;
                 var fontSize = i == SelectedYear ? (double)22 : (double)16;
-                Years.Add(new AvailableYear() { Year = i, Color = color.ToHex(), TextSize = fontSize });
+                Years.Add(new AvailableYear() { Year = i, Color = color.ToHex(), TextSize = fontSize, YearInNepaliFormat = DisplayLanguage == Language.English ? string.Empty : EnglishToNepaliNumber.convertToNepaliNumber(i) });
             };
         }
 
