@@ -15,8 +15,8 @@ namespace Xam.Plugins.NepaliDatePicker.CustomControls
         public static readonly BindableProperty DateFormatProperty = BindableProperty.Create(nameof(DateFormat), typeof(DateFormats), typeof(NepaliDatePickerEntry), defaultValue: DateFormats.yMd, propertyChanged: DateFormatPropertyChanged);
 
 
-        public static readonly BindableProperty SeparatorProperty = BindableProperty.Create(nameof(Separator), typeof(Char), typeof(NepaliDatePickerEntry), defaultValue: '-', propertyChanged: SeparatorPropertyChanged); 
-        
+        public static readonly BindableProperty SeparatorProperty = BindableProperty.Create(nameof(Separator), typeof(Char), typeof(NepaliDatePickerEntry), defaultValue: '-', propertyChanged: SeparatorPropertyChanged);
+
         public static readonly BindableProperty DisplayLanguageProperty = BindableProperty.Create(nameof(DisplayLanguage), typeof(Language), typeof(NepaliDatePickerEntry), defaultValue: Language.English);
 
         public NepaliDatePickerEntry()
@@ -57,8 +57,8 @@ namespace Xam.Plugins.NepaliDatePicker.CustomControls
 
         private void SetDateParts(string date)
         {
-            bool isSeparatorPresent = date.IndexOf(Separator) == -1;
-            if (isSeparatorPresent)
+            bool isSeparatorPresent = date.IndexOf(Separator) > -1;
+            if (!isSeparatorPresent)
                 return;
             var datePartsByFormat = GetDateParts(date, DateFormat);
             this.SelectedYear = datePartsByFormat.year;
@@ -125,7 +125,7 @@ namespace Xam.Plugins.NepaliDatePicker.CustomControls
                 SelectedDate = this.SelectedDay,
                 SelectedMonth = this.SelectedMonth,
                 SelectedYear = this.SelectedYear,
-                DisplayLanguage=this.DisplayLanguage
+                DisplayLanguage = this.DisplayLanguage
             };
             MessagingCenter.Subscribe<DateDetailDto>(this, DATE_SELECTED_EVENT, OnDateSelected);
             Navigation.PushModalAsync(new DatePickerPopupPage(model));

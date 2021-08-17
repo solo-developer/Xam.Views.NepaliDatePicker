@@ -3,14 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Xam.Views.NepaliDatePicker.MainPage"
              xmlns:CustomControls="clr-namespace:Xam.Plugins.NepaliDatePicker.CustomControls;assembly=Xam.Plugins.NepaliDatePicker"
-             BackgroundColor="LightGreen">
-
-    <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+             BackgroundColor="LightGreen"
+             xmlns:converters="clr-namespace:Xam.Views.NepaliDatePicker">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:IntEnumConverter x:Key="IntEnum" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <StackLayout>
         <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
             <Label Text="Nepali Date Picker" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
         </Frame>
-        <!--<CustomViews:NepaliDatePicker VerticalOptions="Center"/>-->
-        <CustomControls:NepaliDatePickerEntry DateFormat="yMd" Separator="/" CurrentDate="2078/04/32" DisplayLanguage="Nepali"/>
+        <StackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand" Margin="20" BackgroundColor="White" Padding="50">
+          
+            <Label Text="Select Language"/>
+            <Picker ItemsSource="{Binding Languages}" SelectedIndex="{Binding SelectedLanguage, Converter={StaticResource IntEnum}}"/>
+
+            <BoxView HeightRequest="5" HorizontalOptions="FillAndExpand" Color="Green" Margin="0,50,0,0"/>
+            <CustomControls:NepaliDatePickerEntry DateFormat="{Binding SelectedFormat}" Separator="{Binding Separator}" DisplayLanguage="{Binding SelectedLanguage}" CurrentDate="2078-04-31" HorizontalOptions="FillAndExpand"/>
+        </StackLayout>
     </StackLayout>
+   
 
 </ContentPage>

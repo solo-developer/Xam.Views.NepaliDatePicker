@@ -34,7 +34,7 @@ namespace Xam.Plugins.NepaliDatePicker
                 var label = new Label()
                 {
                     Text = $"{ firstLetterOfDay}",
-                    FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)),
+                    FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Center,
                     TextColor = Color.Black
@@ -52,7 +52,7 @@ namespace Xam.Plugins.NepaliDatePicker
                 var label = new Label()
                 {
                     Text = $"{languageBasedName}",
-                    FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)),
+                    FontSize = 12,
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Center,
                     // FontAttributes = FontAttributes.Bold,
@@ -61,9 +61,10 @@ namespace Xam.Plugins.NepaliDatePicker
                 };
                 CustomAttribute.SetId(label, i);
 
-                var frame = new Frame() { CornerRadius = 30, Padding = 0 };
+                var frame = new Frame() { CornerRadius = 20, Padding = 0 };
                 frame.Content = label;
                 frame.BackgroundColor = Color.Transparent;
+                frame.IsClippedToBounds = true;
                 if (i == vm.SelectedDay && isSameYearAndMonthAsSelected)
                 {
                     frame.BackgroundColor = _selectedDateColor;
