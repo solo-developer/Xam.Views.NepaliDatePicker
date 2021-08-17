@@ -3,17 +3,17 @@ Nepali Date Picker for Xamarin Forms
 
 **Installation**   
 
-```  Install-Package Xam.Plugins.NepaliDatePicker ```
+    Install-Package Xam.Plugins.NepaliDatePicker
 
 **Usage**   
 
 1. Import namespace in your xaml file   
 
-```  xmlns:CustomControls="clr-namespace:Xam.Plugins.NepaliDatePicker.CustomControls;assembly=Xam.Plugins.NepaliDatePicker"  ```
+       xmlns:CustomControls="clr-namespace:Xam.Plugins.NepaliDatePicker.CustomControls;assembly=Xam.Plugins.NepaliDatePicker"   
 
 2. Use CustomControl wherever required   
 
-```    <CustomControls:NepaliDatePickerEntry DateFormat="mDy" Separator="/" CurrentDate="04/31/2078" /> ```   
+       <CustomControls:NepaliDatePickerEntry DateFormat="mDy" Separator="/" CurrentDate="04/31/2078" />   
 
 3. Since, it uses [Rg.Plugins.Popup](https://github.com/rotorgames/Rg.Plugins.Popup/wiki/Getting-started) for showing calendar , initialise it in platform specific projects.
 
