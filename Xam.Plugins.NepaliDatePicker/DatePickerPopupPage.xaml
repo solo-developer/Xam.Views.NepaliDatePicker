@@ -2,15 +2,18 @@
 <pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Xam.Plugins.NepaliDatePicker.DatePickerPopupPage"
+                   x:Name="Page"
                   xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
                  xmlns:converters="clr-namespace:Xam.Plugins.NepaliDatePicker.Converters"
                  xmlns:viewModel="clr-namespace:Xam.Plugins.NepaliDatePicker.ViewModel"
+                 xmlns:attributes="clr-namespace:Xam.Plugins.NepaliDatePicker.AttachedProperties"
                  BackgroundColor="Transparent">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:IntToMonthNameConverter x:Key="IntToMonth" />
-            <converters:IntToDayNameConverter x:Key="IntToDay" />
+            <!--<converters:IntToDayNameConverter x:Key="IntToDay" />-->
             <converters:SelectedDateToNameConverter x:Key="SelectedDateToName" />
+            <converters:EnglishToNepaliNumberConverter x:Key="EnglishToNepali" />
             <converters:NegateBoolConverter x:Key="NegatedBool" />
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -18,8 +21,15 @@
         <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Margin="30,10" Spacing="0" x:DataType="viewModel:DatePickerPopupViewModel">
             <StackLayout BackgroundColor="HotPink" Margin="0" Padding="10,20" >
                 <StackLayout>
-                    <Label x:Name="yearLabel" Text="{Binding SelectedYear}" FontSize="Medium" TextColor="White"/>
-                    <StackLayout.GestureRecognizers>                      
+                    <Label x:Name="yearLabel" FontSize="Medium" TextColor="White">
+                        <Label.Text>
+                            <MultiBinding Converter="{StaticResource EnglishToNepali}">
+                                <Binding Path="SelectedYear" />
+                                <Binding Path="DisplayLanguage" />
+                            </MultiBinding>
+                        </Label.Text>
+                    </Label>
+                    <StackLayout.GestureRecognizers>
                         <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
                     </StackLayout.GestureRecognizers>
                 </StackLayout>
@@ -29,6 +39,7 @@
                         <MultiBinding Converter="{StaticResource SelectedDateToName}">
                             <Binding Path="InitialDate" />
                             <Binding Path="SelectedDayOfWeek" />
+                            <Binding Path="DisplayLanguage" />
                         </MultiBinding>
                     </Label.Text>
                 </Label>
@@ -48,7 +59,12 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell x:DataType="viewModel:AvailableYear">
-                                        <Label Text="{Binding Year}" TextColor="{Binding Color}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="{Binding TextSize}" Margin="10"></Label>
+                                        <StackLayout>
+                                            <Label IsVisible="{Binding Source={x:Reference Page}, Path=BindingContext.IsEnglishLanguage}" Text="{Binding Year}" TextColor="{Binding Color}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="{Binding TextSize}" Margin="10" attributes:CustomAttribute.Id="{Binding Year}"/>
+
+                                            <Label IsVisible="{Binding Source={x:Reference Page}, Path=BindingContext.IsEnglishLanguage,Converter={StaticResource NegatedBool}}" Text="{Binding YearInNepaliFormat}" TextColor="{Binding Color}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="{Binding TextSize}" Margin="10" attributes:CustomAttribute.Id="{Binding Year}"/>
+                                        </StackLayout>                                    
+                                        
                                     </ViewCell>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
@@ -65,13 +81,26 @@
                         </StackLayout.GestureRecognizers>
                     </StackLayout>
 
-                    <Label VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" FontSize="Small">
+                    <Label VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" FontSize="Medium">
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="{Binding SelectedMonth,Converter={StaticResource IntToMonth}}" />
-
+                                <Span>
+                                    <Span.Text>
+                                        <MultiBinding Converter="{StaticResource IntToMonth}">
+                                            <Binding Path="SelectedMonth"/>
+                                            <Binding Path="DisplayLanguage"/>
+                                        </MultiBinding>
+                                    </Span.Text>
+                                </Span>
                                 <Span Text=" "/>
-                                <Span Text="{Binding SelectedYear}" />
+                                <Span>
+                                    <Span.Text>
+                                        <MultiBinding Converter="{StaticResource EnglishToNepali}">
+                                            <Binding Path="SelectedYear"/>
+                                            <Binding Path="DisplayLanguage"/>
+                                        </MultiBinding>
+                                    </Span.Text>
+                                </Span>
 
                             </FormattedString>
                         </Label.FormattedText>
@@ -82,7 +111,7 @@
                             <TapGestureRecognizer Tapped="NextMonthImageButton_Clicked"></TapGestureRecognizer>
                         </StackLayout.GestureRecognizers>
                     </StackLayout>
-                  
+
                 </StackLayout>
                 <Grid x:Name="dayStackLayout" ColumnSpacing="10" Grid.Row="1" RowSpacing="10"  IsVisible="{Binding ShowYearList,Converter={StaticResource NegatedBool}}">
                     <Grid.ColumnDefinitions>

@@ -4,14 +4,17 @@ using System;
 using Xamarin.Forms;
 using System.Linq;
 using Xam.Plugins.NepaliDatePicker.Dto;
+using Xam.Plugins.NepaliDatePicker.Library;
+using Xam.Plugins.NepaliDatePicker.AttachedProperties;
 
 namespace Xam.Plugins.NepaliDatePicker
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DatePickerPopupPage : Rg.Plugins.Popup.Pages.PopupPage
     {
-        private readonly Color SelectedDateColor = Color.HotPink;
-
+        private readonly Color _selectedDateColor = Color.HotPink;
+        private readonly string[] _englishDayFirstLetters = new string[] { "S", "M", "T", "W", "T", "F", "S" };
+        private readonly string[] _nepaliDayFirstLetters = new string[] { "आ", "सो", "मं", "बु", "बि", "शु", "श" };
         public DatePickerPopupPage(DateDetailDto model)
         {
             InitializeComponent();
@@ -27,9 +30,10 @@ namespace Xam.Plugins.NepaliDatePicker
 
             for (var i = 0; i < 7; i++)
             {
+                var firstLetterOfDay = vm.DisplayLanguage == Enums.Language.English ? _englishDayFirstLetters[i] : _nepaliDayFirstLetters[i];
                 var label = new Label()
                 {
-                    Text = $"{vm.DayFirstLetters[i]}",
+                    Text = $"{ firstLetterOfDay}",
                     FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Center,
@@ -44,23 +48,26 @@ namespace Xam.Plugins.NepaliDatePicker
             var isSameYearAndMonthAsSelected = vm.SelectedYear == vm.InitialDate.year && vm.SelectedMonth == vm.InitialDate.month;
             for (var i = 1; i <= vm.LastDayOfMonth; i++)
             {
+                var languageBasedName = vm.DisplayLanguage == Enums.Language.English ? i.ToString() : EnglishToNepaliNumber.convertToNepaliNumber(i);
                 var label = new Label()
                 {
-                    Text = $"{i}",
-                    FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
+                    Text = $"{languageBasedName}",
+                    FontSize = 12,
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Center,
                     // FontAttributes = FontAttributes.Bold,
                     TextColor = Color.Black,
                     Padding = 10
                 };
+                CustomAttribute.SetId(label, i);
 
-                var frame = new Frame() { CornerRadius = 30, Padding = 0 };
+                var frame = new Frame() { CornerRadius = 20, Padding = 0 };
                 frame.Content = label;
                 frame.BackgroundColor = Color.Transparent;
+                frame.IsClippedToBounds = true;
                 if (i == vm.SelectedDay && isSameYearAndMonthAsSelected)
                 {
-                    frame.BackgroundColor = SelectedDateColor;
+                    frame.BackgroundColor = _selectedDateColor;
                 }
                 Grid.SetRow(frame, startRowIndex);
                 Grid.SetColumn(frame, startColumnIndex);
@@ -85,11 +92,11 @@ namespace Xam.Plugins.NepaliDatePicker
             if (string.IsNullOrEmpty(dayLabel.Text))
                 return;
             RemoveDateSelectionVisualDisplay();
-            ((DatePickerPopupViewModel)BindingContext).SelectedDay = Convert.ToInt32(dayLabel.Text);
+            ((DatePickerPopupViewModel)BindingContext).SelectedDay = CustomAttribute.GetId(dayLabel);
             ((DatePickerPopupViewModel)BindingContext).InitialDate = (vm.SelectedYear, vm.SelectedMonth, vm.SelectedDay);
             int dayIndex = Grid.GetColumn(frame);
             ((DatePickerPopupViewModel)BindingContext).SelectedDayOfWeek = dayIndex + 1;
-            frame.BackgroundColor = SelectedDateColor;
+            frame.BackgroundColor = _selectedDateColor;
             ((DatePickerPopupViewModel)BindingContext).UnsetCalendarNavigation();
 
         }
@@ -103,7 +110,7 @@ namespace Xam.Plugins.NepaliDatePicker
                 if (frame == null)
                     continue;
 
-                if (frame.BackgroundColor == SelectedDateColor)
+                if (frame.BackgroundColor == _selectedDateColor)
                     frame.BackgroundColor = Color.Transparent;
             }
         }
@@ -147,7 +154,7 @@ namespace Xam.Plugins.NepaliDatePicker
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
             var vm = (DatePickerPopupViewModel)BindingContext;
-            vm.OnYearListShown();           
+            vm.OnYearListShown();
             var selectedYear = vm.Years.Where(a => a.Year == vm.SelectedYear).Single();
             yearListView.ScrollTo(selectedYear, ScrollToPosition.Start, false);
         }
