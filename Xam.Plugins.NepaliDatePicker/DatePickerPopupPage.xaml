@@ -136,8 +136,8 @@
                         </Grid.ColumnDefinitions>
                     </Grid>
 
-                    <Button BackgroundColor="Transparent" Text="CANCEL" TextColor="HotPink" VerticalOptions="Center" Grid.Column="0" HorizontalOptions="EndAndExpand" Clicked="Cancel_Button_Clicked"/>
-                    <Button BackgroundColor="Transparent" Text="OK" TextColor="HotPink" VerticalOptions="Center" Grid.Column="1" HorizontalOptions="End" Padding="0" Clicked="OK_button_Clicked"/>
+                    <Button BackgroundColor="Transparent" Text="{Binding CancelButtonText}" TextColor="HotPink" VerticalOptions="Center" Grid.Column="0" HorizontalOptions="EndAndExpand" Clicked="Cancel_Button_Clicked"/>
+                    <Button BackgroundColor="Transparent" Text="{Binding OKButtonText}" TextColor="HotPink" VerticalOptions="Center" Grid.Column="1" HorizontalOptions="End" Padding="0" Clicked="OK_button_Clicked"/>
 
                 </StackLayout>
             </StackLayout>

@@ -15,7 +15,7 @@ namespace Xam.Plugins.NepaliDatePicker.ViewModel
         private readonly Color SelectedDateColor = Color.HotPink;
         private readonly iNepaliDateData _nepaliDateData;
         private readonly iDateConverter _dateConverter;
-       
+
         public DatePickerPopupViewModel(DateDetailDto model)
         {
             this.SelectedDay = model.SelectedDate;
@@ -32,6 +32,14 @@ namespace Xam.Plugins.NepaliDatePicker.ViewModel
             SetStartAndEndMonthDetail();
             Years = new ObservableCollection<AvailableYear>();
             InitAvailableYears();
+        }
+        public string OKButtonText
+        {
+            get => DisplayLanguage == Enums.Language.English ? "OK" : "ठीक छ";
+        }
+        public string CancelButtonText
+        {
+            get => DisplayLanguage == Enums.Language.English ? "Cancel" : "रद्द गर्नुहोस्";
         }
 
         public bool IsEnglishLanguage
