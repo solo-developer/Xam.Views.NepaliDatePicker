@@ -174,7 +174,7 @@ namespace Xam.Plugins.NepaliDatePicker.ViewModel
             {
                 var color = i == SelectedYear ? SelectedDateColor : Color.Black;
                 var fontSize = i == SelectedYear ? (double)22 : (double)16;
-                Years.Add(new AvailableYear() { Year = i, Color = color.ToHex(), TextSize = fontSize, YearInNepaliFormat = DisplayLanguage == Language.English ? string.Empty : EnglishToNepaliNumber.convertToNepaliNumber(i) });
+                Years.Add(new AvailableYear() { Year = i, Color = color.ToHex(), TextSize = fontSize, YearInNepaliFormat = DisplayLanguage == Language.English ? string.Empty : EnglishToNepaliNumber.ConvertToNepaliNumber(i) });
             };
         }
 

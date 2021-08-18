@@ -6,6 +6,7 @@ using System.Linq;
 using Xam.Plugins.NepaliDatePicker.Dto;
 using Xam.Plugins.NepaliDatePicker.Library;
 using Xam.Plugins.NepaliDatePicker.AttachedProperties;
+using System.Collections.Generic;
 
 namespace Xam.Plugins.NepaliDatePicker
 {
@@ -15,47 +16,65 @@ namespace Xam.Plugins.NepaliDatePicker
         private readonly Color _selectedDateColor = Color.HotPink;
         private readonly string[] _englishDayFirstLetters = new string[] { "S", "M", "T", "W", "T", "F", "S" };
         private readonly string[] _nepaliDayFirstLetters = new string[] { "आ", "सो", "मं", "बु", "बि", "शु", "श" };
+
+        DateDetailDto _dto;
         public DatePickerPopupPage(DateDetailDto model)
         {
+            _dto = model;
             InitializeComponent();
             var vm = new DatePickerPopupViewModel(model);
             BindingContext = vm;
             InitCalendarView();
         }
 
+        private List<Label> _headers;
+        private List<Label> Headers
+        {
+            get
+            {
+                if (_headers != null)
+                    return _headers;
+                _headers = new List<Label>();
+                for (var i = 0; i < 7; i++)
+                {
+                    var firstLetterOfDay = _dto.DisplayLanguage == Enums.Language.English ? _englishDayFirstLetters[i] : _nepaliDayFirstLetters[i];
+                    var label = new Label()
+                    {
+                        Text = $"{ firstLetterOfDay}",
+                        FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
+                        VerticalOptions = LayoutOptions.Center,
+                        HorizontalOptions = LayoutOptions.Center,
+                        TextColor = Color.Black
+                    };
+                    Grid.SetRow(label, 0);
+                    Grid.SetColumn(label, i);
+                    _headers.Add(label);
+                }
+                return _headers;
+            }
+        }
         private void InitCalendarView()
         {
             var vm = (DatePickerPopupViewModel)BindingContext;
             dayStackLayout.Children.Clear();
 
-            for (var i = 0; i < 7; i++)
+            foreach(var header in Headers)
             {
-                var firstLetterOfDay = vm.DisplayLanguage == Enums.Language.English ? _englishDayFirstLetters[i] : _nepaliDayFirstLetters[i];
-                var label = new Label()
-                {
-                    Text = $"{ firstLetterOfDay}",
-                    FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
-                    VerticalOptions = LayoutOptions.Center,
-                    HorizontalOptions = LayoutOptions.Center,
-                    TextColor = Color.Black
-                };
-                Grid.SetRow(label, 0);
-                Grid.SetColumn(label, i);
-                dayStackLayout.Children.Add(label);
+                dayStackLayout.Children.Add(header);
             }
+         
             int startRowIndex = 1;
             int startColumnIndex = vm.FirstDayOfWeek - 1;
             var isSameYearAndMonthAsSelected = vm.SelectedYear == vm.InitialDate.year && vm.SelectedMonth == vm.InitialDate.month;
             for (var i = 1; i <= vm.LastDayOfMonth; i++)
             {
-                var languageBasedName = vm.DisplayLanguage == Enums.Language.English ? i.ToString() : EnglishToNepaliNumber.convertToNepaliNumber(i);
+                var languageBasedName = vm.DisplayLanguage == Enums.Language.English ? i.ToString() : EnglishToNepaliNumber.ConvertToNepaliNumber(i);
                 var label = new Label()
                 {
                     Text = $"{languageBasedName}",
                     FontSize = 12,
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Center,
-                    // FontAttributes = FontAttributes.Bold,
                     TextColor = Color.Black,
                     Padding = 10
                 };

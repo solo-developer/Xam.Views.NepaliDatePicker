@@ -18,7 +18,7 @@ namespace Xam.Plugins.NepaliDatePicker.Converters
                 return string.Empty;
             if ((Language)values[1] == Language.English)
                 return values[0];
-            return EnglishToNepaliNumber.convertToNepaliNumber((int)values[0]);
+            return EnglishToNepaliNumber.ConvertToNepaliNumber((int)values[0]);
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
