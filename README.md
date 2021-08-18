@@ -32,7 +32,13 @@ This plugin is a customisation on existing Entry . So, you can use all existing 
  2. dMy
  3. mDy   
  
- Value defaults to yMd
+ Value defaults to yMd   
+ 
+ 
+***DisplayLanguage***   
+Shows datepicker in selected language. Available options are       
+1. English       
+2. Nepali      
  
  ## Get Notified on Every Date Selection ##    
  
@@ -52,4 +58,4 @@ This plugin is a customisation on existing Entry . So, you can use all existing 
 **Working Screenshot**  
 ![alt text][screenshot]
 
-[screenshot]: https://github.com/solo-developer/Xam.Views.NepaliDatePicker/blob/main/GIF-210816_205455.gif "Xamarin Nepali DatePicker"
+[screenshot]: https://github.com/solo-developer/Xam.Views.NepaliDatePicker/blob/main/GIF-210818_211437.gif "Xamarin Nepali DatePicker"
