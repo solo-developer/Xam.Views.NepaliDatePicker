@@ -34,6 +34,8 @@ namespace Xam.Plugins.NepaliDatePicker
             {
                 if (_headers != null)
                     return _headers;
+
+                double fontSize = _dto.DisplayLanguage == Enums.Language.English ? Device.GetNamedSize(NamedSize.Micro, typeof(Label)) : 12;
                 _headers = new List<Label>();
                 for (var i = 0; i < 7; i++)
                 {
@@ -41,7 +43,7 @@ namespace Xam.Plugins.NepaliDatePicker
                     var label = new Label()
                     {
                         Text = $"{ firstLetterOfDay}",
-                        FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
+                        FontSize = fontSize,
                         VerticalOptions = LayoutOptions.Center,
                         HorizontalOptions = LayoutOptions.Center,
                         TextColor = Color.Black
