@@ -18,8 +18,8 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Margin="30,10" Spacing="0" x:DataType="viewModel:DatePickerPopupViewModel">
-            <StackLayout BackgroundColor="HotPink" Margin="0" Padding="10,20" >
+        <StackLayout Margin="30" Spacing="0" x:DataType="viewModel:DatePickerPopupViewModel" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"  >
+            <StackLayout BackgroundColor="HotPink" Margin="0" Padding="10,20">
                 <StackLayout>
                     <Label x:Name="yearLabel" FontSize="Medium" TextColor="White">
                         <Label.Text>
@@ -45,10 +45,10 @@
                 </Label>
             </StackLayout>
 
-            <StackLayout BackgroundColor="White" Padding="10">
+            <StackLayout BackgroundColor="White" Padding="10" VerticalOptions="FillAndExpand">
                 <Grid HorizontalOptions="FillAndExpand">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="150"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition Height="150"></RowDefinition>
                     </Grid.RowDefinitions>
@@ -63,8 +63,8 @@
                                             <Label IsVisible="{Binding Source={x:Reference Page}, Path=BindingContext.IsEnglishLanguage}" Text="{Binding Year}" TextColor="{Binding Color}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="{Binding TextSize}" Margin="10" attributes:CustomAttribute.Id="{Binding Year}"/>
 
                                             <Label IsVisible="{Binding Source={x:Reference Page}, Path=BindingContext.IsEnglishLanguage,Converter={StaticResource NegatedBool}}" Text="{Binding YearInNepaliFormat}" TextColor="{Binding Color}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="{Binding TextSize}" Margin="10" attributes:CustomAttribute.Id="{Binding Year}"/>
-                                        </StackLayout>                                    
-                                        
+                                        </StackLayout>
+
                                     </ViewCell>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
@@ -113,17 +113,19 @@
                     </StackLayout>
 
                 </StackLayout>
-                <Grid x:Name="dayStackLayout" ColumnSpacing="10" Grid.Row="1" RowSpacing="10"  IsVisible="{Binding ShowYearList,Converter={StaticResource NegatedBool}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                </Grid>
+                <StackLayout Grid.Row="1"  IsVisible="{Binding ShowYearList,Converter={StaticResource NegatedBool}}"  VerticalOptions="FillAndExpand">
+                    <Grid x:Name="dayStackLayout" ColumnSpacing="10" RowSpacing="10" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </StackLayout>
                 <!-- footer-->
                 <StackLayout Grid.Row="2" Margin="0,20,0,10" Orientation="Horizontal">
 
