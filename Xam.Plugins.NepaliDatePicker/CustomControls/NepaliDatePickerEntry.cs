@@ -55,6 +55,10 @@ namespace Xam.Plugins.NepaliDatePicker.CustomControls
 
         public int SelectedDay { get; set; }
 
+        /// <summary>
+        /// Splits provided date and sets parts of date (day,month and year) in properties
+        /// </summary>
+        /// <param name="date"></param>
         private void SetDateParts(string date)
         {
             bool isSeparatorPresent = date.IndexOf(Separator) > -1;
@@ -84,6 +88,13 @@ namespace Xam.Plugins.NepaliDatePicker.CustomControls
                 obj.SetDateParts(newValue.ToString());
         }
 
+
+        /// <summary>
+        /// gets year,month and day from string based on provided format
+        /// </summary>
+        /// <param name="date"></param>
+        /// <param name="dateFormat"></param>
+        /// <returns></returns>
         private (int year, int month, int day) GetDateParts(string date, DateFormats dateFormat)
         {
             var dateParts = date.Split(Separator);
@@ -142,6 +153,13 @@ namespace Xam.Plugins.NepaliDatePicker.CustomControls
             this.Text = date;
         }
 
+        /// <summary>
+        /// gets date after combining year,month and day using provided separator, in specified format
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="separator"></param>
+        /// <param name="format"></param>
+        /// <returns></returns>
         private string GetFormattedDate(DateDetailDto data, char separator, DateFormats format)
         {
             switch (format)

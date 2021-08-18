@@ -67,7 +67,7 @@ namespace Xam.Plugins.NepaliDatePicker
          
             int startRowIndex = 1;
             int startColumnIndex = vm.FirstDayOfWeek - 1;
-            var isSameYearAndMonthAsSelected = vm.SelectedYear == vm.InitialDate.year && vm.SelectedMonth == vm.InitialDate.month;
+            var isSameYearAndMonthAsSelected = vm.CurrentYear == vm.UserSelection.year && vm.CurrentMonth == vm.UserSelection.month;
             for (var i = 1; i <= vm.LastDayOfMonth; i++)
             {
                 var languageBasedName = vm.DisplayLanguage == Enums.Language.English ? i.ToString() : EnglishToNepaliNumber.ConvertToNepaliNumber(i);
@@ -114,11 +114,11 @@ namespace Xam.Plugins.NepaliDatePicker
                 return;
             RemoveDateSelectionVisualDisplay();
             ((DatePickerPopupViewModel)BindingContext).SelectedDay = CustomAttribute.GetId(dayLabel);
-            ((DatePickerPopupViewModel)BindingContext).InitialDate = (vm.SelectedYear, vm.SelectedMonth, vm.SelectedDay);
+            ((DatePickerPopupViewModel)BindingContext).UserSelection = (vm.CurrentYear, vm.CurrentMonth, vm.SelectedDay);
             int dayIndex = Grid.GetColumn(frame);
             ((DatePickerPopupViewModel)BindingContext).SelectedDayOfWeek = dayIndex + 1;
             frame.BackgroundColor = _selectedDateColor;
-            ((DatePickerPopupViewModel)BindingContext).UnsetCalendarNavigation();
+            ((DatePickerPopupViewModel)BindingContext).UnsetMonthNavigation();
 
         }
 
@@ -139,14 +139,14 @@ namespace Xam.Plugins.NepaliDatePicker
         private void PrevMonthImageButton_Clicked(object sender, EventArgs e)
         {
             var vm = (DatePickerPopupViewModel)BindingContext;
-            vm.SelectPreviousMonth();
+            vm.NavigateToPreviousMonth();
             InitCalendarView();
         }
 
         private void NextMonthImageButton_Clicked(object sender, EventArgs e)
         {
             var vm = (DatePickerPopupViewModel)BindingContext;
-            vm.SelectNextMonth();
+            vm.NavigateToNextMonth();
             InitCalendarView();
         }
 
@@ -162,13 +162,13 @@ namespace Xam.Plugins.NepaliDatePicker
 
         private void yearListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            var selectedItem = e.Item as AvailableYear;
+            var selectedItem = e.Item as YearDetail;
             if (selectedItem == null)
             {
                 return;
             }
             var vm = (DatePickerPopupViewModel)BindingContext;
-            vm.SelectYear(selectedItem.Year);
+            vm.NavigateToYear(selectedItem.Year);
             InitCalendarView();
         }
 
@@ -176,7 +176,7 @@ namespace Xam.Plugins.NepaliDatePicker
         {
             var vm = (DatePickerPopupViewModel)BindingContext;
             vm.OnYearListShown();
-            var selectedYear = vm.Years.Where(a => a.Year == vm.SelectedYear).Single();
+            var selectedYear = vm.Years.Where(a => a.Year == vm.CurrentYear).Single();
             yearListView.ScrollTo(selectedYear, ScrollToPosition.Start, false);
         }
     }

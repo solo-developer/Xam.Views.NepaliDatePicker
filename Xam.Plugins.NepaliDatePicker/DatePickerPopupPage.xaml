@@ -24,7 +24,7 @@
                     <Label x:Name="yearLabel" FontSize="Medium" TextColor="White">
                         <Label.Text>
                             <MultiBinding Converter="{StaticResource EnglishToNepali}">
-                                <Binding Path="SelectedYear" />
+                                <Binding Path="CurrentYear" />
                                 <Binding Path="DisplayLanguage" />
                             </MultiBinding>
                         </Label.Text>
@@ -37,7 +37,7 @@
                 <Label FontSize="Large" TextColor="White">
                     <Label.Text>
                         <MultiBinding Converter="{StaticResource SelectedDateToName}">
-                            <Binding Path="InitialDate" />
+                            <Binding Path="UserSelection" />
                             <Binding Path="SelectedDayOfWeek" />
                             <Binding Path="DisplayLanguage" />
                         </MultiBinding>
@@ -58,7 +58,7 @@
                         <ListView x:Name="yearListView" ItemsSource="{Binding Years}" ItemTapped="yearListView_ItemTapped" SeparatorVisibility="None" CachingStrategy="RecycleElement">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <ViewCell x:DataType="viewModel:AvailableYear">
+                                    <ViewCell x:DataType="viewModel:YearDetail">
                                         <StackLayout>
                                             <Label IsVisible="{Binding Source={x:Reference Page}, Path=BindingContext.IsEnglishLanguage}" Text="{Binding Year}" TextColor="{Binding Color}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="{Binding TextSize}" Margin="10" attributes:CustomAttribute.Id="{Binding Year}"/>
 
@@ -87,7 +87,7 @@
                                 <Span>
                                     <Span.Text>
                                         <MultiBinding Converter="{StaticResource IntToMonth}">
-                                            <Binding Path="SelectedMonth"/>
+                                            <Binding Path="CurrentMonth"/>
                                             <Binding Path="DisplayLanguage"/>
                                         </MultiBinding>
                                     </Span.Text>
@@ -96,7 +96,7 @@
                                 <Span>
                                     <Span.Text>
                                         <MultiBinding Converter="{StaticResource EnglishToNepali}">
-                                            <Binding Path="SelectedYear"/>
+                                            <Binding Path="CurrentYear"/>
                                             <Binding Path="DisplayLanguage"/>
                                         </MultiBinding>
                                     </Span.Text>
