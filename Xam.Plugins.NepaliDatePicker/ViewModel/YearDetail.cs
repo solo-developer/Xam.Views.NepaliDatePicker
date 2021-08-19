@@ -1,4 +1,5 @@
 ﻿using System;
+using Xamarin.Forms;
 
 namespace Xam.Plugins.NepaliDatePicker.ViewModel
 {
@@ -14,7 +15,7 @@ namespace Xam.Plugins.NepaliDatePicker.ViewModel
         /// <summary>
         /// Text Color of Year label in View while navigating through Year
         /// </summary>
-        public string Color { get; set; }
+        public Color Color { get; set; }
 
         /// <summary>
         /// font size of label in view (is bigger for selected year)

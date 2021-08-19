@@ -128,9 +128,10 @@ namespace Xam.Plugins.NepaliDatePicker.CustomControls
 
         }
 
-        private void openPopupEntry_Focused(object sender, FocusEventArgs e)
+        private async void openPopupEntry_Focused(object sender, FocusEventArgs e)
         {
-            this.Unfocus();
+            //setting readonly so that this event doesnot get fired multiple times when user focusses on entry time and again before popup modal pops out 
+            this.IsReadOnly = true;
             var model = new DateDetailDto()
             {
                 SelectedDate = this.SelectedDay,
@@ -139,7 +140,8 @@ namespace Xam.Plugins.NepaliDatePicker.CustomControls
                 DisplayLanguage = this.DisplayLanguage
             };
             MessagingCenter.Subscribe<DateDetailDto>(this, DATE_SELECTED_EVENT, OnDateSelected);
-            Navigation.PushModalAsync(new DatePickerPopupPage(model));
+            await Navigation.PushModalAsync(new DatePickerPopupPage(model));
+            this.IsReadOnly = false;
         }
 
         private async void OnDateSelected(DateDetailDto data)

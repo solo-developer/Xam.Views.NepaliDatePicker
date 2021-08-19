@@ -6,6 +6,10 @@ using Xamarin.Forms;
 using Unity;
 using Xam.Plugins.NepaliDatePicker.Enums;
 using Xam.Plugins.NepaliDatePicker.Library;
+using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.ObjectModel;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Xam.Plugins.NepaliDatePicker.ViewModel
 {
@@ -18,8 +22,8 @@ namespace Xam.Plugins.NepaliDatePicker.ViewModel
         public DatePickerPopupViewModel(DateDetailDto model)
         {
             this.SelectedDay = model.SelectedDate;
-            this.CurrentMonth = model.SelectedMonth;
-            this.CurrentYear = model.SelectedYear;
+            this.CurrentCalendarMonth = model.SelectedMonth;
+            this.CurrentCalendarYear = model.SelectedYear;
             this.DisplayLanguage = model.DisplayLanguage;
             IsEnglishLanguage = model.DisplayLanguage == Language.English;
 
@@ -29,9 +33,10 @@ namespace Xam.Plugins.NepaliDatePicker.ViewModel
             this._nepaliDateData = unityContainer.Resolve<iNepaliDateData>();
             this._dateConverter = unityContainer.Resolve<iDateConverter>();
             SetStartAndEndMonthDetail();
-            Years = new ObservableCollection<YearDetail>();
-            InitAvailableYears();
+            Years = new ObservableRangeCollection<YearDetail>();
+            Task.Run(() => InitAvailableYears());
         }
+
         public string OKButtonText
         {
             get => DisplayLanguage == Enums.Language.English ? "OK" : "ठीक छ";
@@ -55,9 +60,9 @@ namespace Xam.Plugins.NepaliDatePicker.ViewModel
         /// <summary>
         /// List of years that is available in calendar
         /// </summary>
-        public ObservableCollection<YearDetail> Years
+        public ObservableRangeCollection<YearDetail> Years
         {
-            get => GetValue<ObservableCollection<YearDetail>>();
+            get => GetValue<ObservableRangeCollection<YearDetail>>();
             set => SetValue(value);
         }
 
@@ -75,7 +80,7 @@ namespace Xam.Plugins.NepaliDatePicker.ViewModel
         /// <summary>
         /// Current Calendar navigation year
         /// </summary>
-        public int CurrentYear
+        public int CurrentCalendarYear
         {
             get => GetValue<int>();
             set => SetValue(value);
@@ -84,7 +89,7 @@ namespace Xam.Plugins.NepaliDatePicker.ViewModel
         /// <summary>
         /// Current Calendar navigated month
         /// </summary>
-        public int CurrentMonth
+        public int CurrentCalendarMonth
         {
             get => GetValue<int>();
             set => SetValue(value);
@@ -126,7 +131,7 @@ namespace Xam.Plugins.NepaliDatePicker.ViewModel
             get => GetValue<int>();
             set => SetValue(value);
         }
-              
+
         public bool ShowYearList
         {
             get => GetValue<bool>();
@@ -135,32 +140,32 @@ namespace Xam.Plugins.NepaliDatePicker.ViewModel
 
         internal void SetStartAndEndMonthDetail()
         {
-            bool isPageOpenedAtFirstWithoutDatePassed = CurrentYear == 0 || CurrentMonth == 0 || SelectedDay == 0;
+            bool isPageOpenedAtFirstWithoutDatePassed = CurrentCalendarYear == 0 || CurrentCalendarMonth == 0 || SelectedDay == 0;
             if (isPageOpenedAtFirstWithoutDatePassed)
             {
                 var nepaliDateEquivalentOfToday = _dateConverter.ToBS(System.DateTime.Now, NepaliDate.DateFormats.yMd);
                 LastDayOfMonth = nepaliDateEquivalentOfToday.npDaysInMonth;
-                CurrentYear = nepaliDateEquivalentOfToday.npYear;
-                CurrentMonth = nepaliDateEquivalentOfToday.npMonth;
+                CurrentCalendarYear = nepaliDateEquivalentOfToday.npYear;
+                CurrentCalendarMonth = nepaliDateEquivalentOfToday.npMonth;
                 SelectedDay = nepaliDateEquivalentOfToday.npDay;
                 SelectedDayOfWeek = nepaliDateEquivalentOfToday.dayNumber;
-                FirstDayOfWeek = _dateConverter.ToAD($"{CurrentMonth}/01/{CurrentYear}").dayNumber;
-                UserSelection = (CurrentYear, CurrentMonth, SelectedDay);
+                FirstDayOfWeek = _dateConverter.ToAD($"{CurrentCalendarMonth}/01/{CurrentCalendarYear}").dayNumber;
+                UserSelection = (CurrentCalendarYear, CurrentCalendarMonth, SelectedDay);
             }
-            else if (CurrentYear != 0 && CurrentMonth != 0 && SelectedDay != 0 && !_isMonthNavigated)
+            else if (CurrentCalendarYear != 0 && CurrentCalendarMonth != 0 && SelectedDay != 0 && !_isMonthNavigated)
             {
-                var engEquivalentOfSelectedDate = _dateConverter.ToAD($"{CurrentMonth}/{SelectedDay}/{CurrentYear}");
-                LastDayOfMonth = _nepaliDateData.getLastDayOfMonthNep(CurrentYear, CurrentMonth);
+                var engEquivalentOfSelectedDate = _dateConverter.ToAD($"{CurrentCalendarMonth}/{SelectedDay}/{CurrentCalendarYear}");
+                LastDayOfMonth = _nepaliDateData.getLastDayOfMonthNep(CurrentCalendarYear, CurrentCalendarMonth);
                 SelectedDayOfWeek = engEquivalentOfSelectedDate.dayNumber;
-                FirstDayOfWeek = _dateConverter.ToAD($"{CurrentMonth}/01/{CurrentYear}").dayNumber;
-                UserSelection = (CurrentYear, CurrentMonth, SelectedDay);
+                FirstDayOfWeek = _dateConverter.ToAD($"{CurrentCalendarMonth}/01/{CurrentCalendarYear}").dayNumber;
+                UserSelection = (CurrentCalendarYear, CurrentCalendarMonth, SelectedDay);
             }
             else if (_isMonthNavigated)
             {
-                string firstDayOfMonth = $"{CurrentMonth}/01/{CurrentYear}";
+                string firstDayOfMonth = $"{CurrentCalendarMonth}/01/{CurrentCalendarYear}";
                 var englishEquivalentDate = _dateConverter.ToAD(firstDayOfMonth);
                 FirstDayOfWeek = englishEquivalentDate.dayNumber;
-                LastDayOfMonth = _nepaliDateData.getLastDayOfMonthNep(CurrentYear, CurrentMonth);
+                LastDayOfMonth = _nepaliDateData.getLastDayOfMonthNep(CurrentCalendarYear, CurrentCalendarMonth);
             }
         }
 
@@ -188,12 +193,12 @@ namespace Xam.Plugins.NepaliDatePicker.ViewModel
 
         internal void NavigateToYear(int year)
         {
-            CurrentYear = year;
-            var totalDaysInMonth = _nepaliDateData.getLastDayOfMonthNep(year, CurrentMonth);
+            CurrentCalendarYear = year;
+            var totalDaysInMonth = _nepaliDateData.getLastDayOfMonthNep(year, CurrentCalendarMonth);
 
             if (totalDaysInMonth < SelectedDay)
                 SelectedDay = totalDaysInMonth;
-            UserSelection = (year, CurrentMonth, SelectedDay);
+            UserSelection = (year, CurrentCalendarMonth, SelectedDay);
             UnsetMonthNavigation();
             ShowYearList = false;
             SetStartAndEndMonthDetail();
@@ -205,36 +210,44 @@ namespace Xam.Plugins.NepaliDatePicker.ViewModel
         internal void InitAvailableYears()
         {
             this.Years.Clear();
+            var availableYears = new List<YearDetail>();
             for (var i = 2000; i < 2100; i++)
             {
-                var color = i == CurrentYear ? SelectedDateColor : Color.Black;
-                var fontSize = i == CurrentYear ? (double)22 : (double)16;
-                Years.Add(new YearDetail() { Year = i, Color = color.ToHex(), TextSize = fontSize, YearInNepaliFormat = DisplayLanguage == Language.English ? string.Empty : EnglishToNepaliNumber.ConvertToNepaliNumber(i) });
+                var color = i == CurrentCalendarYear ? SelectedDateColor : Color.Black;
+                var fontSize = i == CurrentCalendarYear ? (double)22 : (double)16;
+                availableYears.Add(new YearDetail()
+                {
+                    Year = i,
+                    Color = color,
+                    TextSize = fontSize,
+                    YearInNepaliFormat = DisplayLanguage == Language.English ? string.Empty : EnglishToNepaliNumber.ConvertToNepaliNumber(i)
+                });
             };
+            Years.AddRange(availableYears);
         }
 
         internal void NavigateToPreviousMonth()
         {
-            if (CurrentMonth == 1)
+            if (CurrentCalendarMonth == 1)
             {
-                CurrentMonth = 12;
-                CurrentYear = CurrentYear - 1;
+                CurrentCalendarMonth = 12;
+                CurrentCalendarYear = CurrentCalendarYear - 1;
             }
             else
-                CurrentMonth -= 1;
+                CurrentCalendarMonth -= 1;
             SetMonthNavigation();
             SetStartAndEndMonthDetail();
         }
 
         internal void NavigateToNextMonth()
         {
-            if (CurrentMonth == 12)
+            if (CurrentCalendarMonth == 12)
             {
-                CurrentMonth = 1;
-                CurrentYear += 1;
+                CurrentCalendarMonth = 1;
+                CurrentCalendarYear += 1;
             }
             else
-                CurrentMonth += 1;
+                CurrentCalendarMonth += 1;
 
             SetMonthNavigation();
             SetStartAndEndMonthDetail();

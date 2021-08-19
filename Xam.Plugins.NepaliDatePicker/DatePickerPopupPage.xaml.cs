@@ -7,6 +7,7 @@ using Xam.Plugins.NepaliDatePicker.Dto;
 using Xam.Plugins.NepaliDatePicker.Library;
 using Xam.Plugins.NepaliDatePicker.AttachedProperties;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Xam.Plugins.NepaliDatePicker
 {
@@ -24,7 +25,7 @@ namespace Xam.Plugins.NepaliDatePicker
             InitializeComponent();
             var vm = new DatePickerPopupViewModel(model);
             BindingContext = vm;
-            InitCalendarView();
+            Task.Run(() => InitCalendarView());
         }
 
         private List<Label> _headers;
@@ -60,14 +61,14 @@ namespace Xam.Plugins.NepaliDatePicker
             var vm = (DatePickerPopupViewModel)BindingContext;
             dayStackLayout.Children.Clear();
 
-            foreach(var header in Headers)
+            foreach (var header in Headers)
             {
                 dayStackLayout.Children.Add(header);
             }
-         
+
             int startRowIndex = 1;
             int startColumnIndex = vm.FirstDayOfWeek - 1;
-            var isSameYearAndMonthAsSelected = vm.CurrentYear == vm.UserSelection.year && vm.CurrentMonth == vm.UserSelection.month;
+            var isSameYearAndMonthAsSelected = vm.CurrentCalendarYear == vm.UserSelection.year && vm.CurrentCalendarMonth == vm.UserSelection.month;
             for (var i = 1; i <= vm.LastDayOfMonth; i++)
             {
                 var languageBasedName = vm.DisplayLanguage == Enums.Language.English ? i.ToString() : EnglishToNepaliNumber.ConvertToNepaliNumber(i);
@@ -114,7 +115,7 @@ namespace Xam.Plugins.NepaliDatePicker
                 return;
             RemoveDateSelectionVisualDisplay();
             ((DatePickerPopupViewModel)BindingContext).SelectedDay = CustomAttribute.GetId(dayLabel);
-            ((DatePickerPopupViewModel)BindingContext).UserSelection = (vm.CurrentYear, vm.CurrentMonth, vm.SelectedDay);
+            ((DatePickerPopupViewModel)BindingContext).UserSelection = (vm.CurrentCalendarYear, vm.CurrentCalendarMonth, vm.SelectedDay);
             int dayIndex = Grid.GetColumn(frame);
             ((DatePickerPopupViewModel)BindingContext).SelectedDayOfWeek = dayIndex + 1;
             frame.BackgroundColor = _selectedDateColor;
@@ -176,7 +177,7 @@ namespace Xam.Plugins.NepaliDatePicker
         {
             var vm = (DatePickerPopupViewModel)BindingContext;
             vm.OnYearListShown();
-            var selectedYear = vm.Years.Where(a => a.Year == vm.CurrentYear).Single();
+            var selectedYear = vm.Years.Where(a => a.Year == vm.CurrentCalendarYear).Single();
             yearListView.ScrollTo(selectedYear, ScrollToPosition.Start, false);
         }
     }

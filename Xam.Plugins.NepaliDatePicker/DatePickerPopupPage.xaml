@@ -24,7 +24,7 @@
                     <Label x:Name="yearLabel" FontSize="Medium" TextColor="White">
                         <Label.Text>
                             <MultiBinding Converter="{StaticResource EnglishToNepali}">
-                                <Binding Path="CurrentYear" />
+                                <Binding Path="CurrentCalendarYear" />
                                 <Binding Path="DisplayLanguage" />
                             </MultiBinding>
                         </Label.Text>
@@ -87,7 +87,7 @@
                                 <Span>
                                     <Span.Text>
                                         <MultiBinding Converter="{StaticResource IntToMonth}">
-                                            <Binding Path="CurrentMonth"/>
+                                            <Binding Path="CurrentCalendarMonth"/>
                                             <Binding Path="DisplayLanguage"/>
                                         </MultiBinding>
                                     </Span.Text>
@@ -96,7 +96,7 @@
                                 <Span>
                                     <Span.Text>
                                         <MultiBinding Converter="{StaticResource EnglishToNepali}">
-                                            <Binding Path="CurrentYear"/>
+                                            <Binding Path="CurrentCalendarYear"/>
                                             <Binding Path="DisplayLanguage"/>
                                         </MultiBinding>
                                     </Span.Text>

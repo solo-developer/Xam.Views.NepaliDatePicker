@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Xam.Plugins.NepaliDatePicker.Library
 {
@@ -8,9 +7,14 @@ namespace Xam.Plugins.NepaliDatePicker.Library
     {
         private static string[] nepaliOnesNumbers = new string[] { "०", "१", "२", "३", "४", "५", "६", "७", "८", "९" };
 
+        private static Dictionary<decimal, string> NumberDictionary = new Dictionary<decimal, string>();
+
         public static string ConvertToNepaliNumber(decimal number)
         {
-            string nepaliNumber = "";
+            if (NumberDictionary.ContainsKey(number))
+                return NumberDictionary[number];
+
+            string nepaliNumber = string.Empty;
 
             string[] arrNumber = number.ToString().Split('.');
 
@@ -25,6 +29,7 @@ namespace Xam.Plugins.NepaliDatePicker.Library
 
             nepaliNumber = AppendNumbersAfterDecimal(arrNumber, nepaliNumber);
 
+            NumberDictionary.Add(number, nepaliNumber);
             return nepaliNumber;
         }
 
