@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DateConverter.Core.Enums;
+using System;
 
 namespace DateConverter.Core
 {
@@ -91,13 +92,7 @@ namespace DateConverter.Core
             }
         }
 
-        //string formats
-        public enum DateFormats
-        {
-            mDy,
-            dMy,
-            yMd
-        }
+       
 
         public void setFormattedDate(int year, int month, int day, DateFormats date_format)
         {

@@ -1,6 +1,5 @@
 ﻿using DateConverter.Core;
 using DateConverter.Core.Library;
-using System.Collections.ObjectModel;
 using Xam.Plugins.NepaliDatePicker.Dto;
 using Xamarin.Forms;
 using Unity;
@@ -9,7 +8,7 @@ using Xam.Plugins.NepaliDatePicker.Library;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using System.Collections.Generic;
-using System.Linq;
+using DateConverter.Core.Enums;
 
 namespace Xam.Plugins.NepaliDatePicker.ViewModel
 {
@@ -143,7 +142,7 @@ namespace Xam.Plugins.NepaliDatePicker.ViewModel
             bool isPageOpenedAtFirstWithoutDatePassed = CurrentCalendarYear == 0 || CurrentCalendarMonth == 0 || SelectedDay == 0;
             if (isPageOpenedAtFirstWithoutDatePassed)
             {
-                var nepaliDateEquivalentOfToday = _dateConverter.ToBS(System.DateTime.Now, NepaliDate.DateFormats.yMd);
+                var nepaliDateEquivalentOfToday = _dateConverter.ToBS(System.DateTime.Now, DateFormats.yMd);
                 LastDayOfMonth = nepaliDateEquivalentOfToday.npDaysInMonth;
                 CurrentCalendarYear = nepaliDateEquivalentOfToday.npYear;
                 CurrentCalendarMonth = nepaliDateEquivalentOfToday.npMonth;

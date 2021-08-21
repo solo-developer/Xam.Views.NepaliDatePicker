@@ -91,17 +91,8 @@ namespace DateConverter.Core
             }
         }
 
-        //string formats
-        public enum DateFormats
-        {
-            mDy,
-            dMy,
-            yMd
-        }
-
         public void setFormattedDate(int year, int month, int day, string date_format= "mDy")
         {
-
             _formattedDate = new DateTime(year, month, day);
         }
 
