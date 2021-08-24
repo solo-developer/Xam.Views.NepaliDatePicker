@@ -1,7 +1,7 @@
 # Xam.Views.NepaliDatePicker
-Nepali Date Picker for Xamarin Forms
-
-[![NuGet version (SoftCircuits.Silk)](https://img.shields.io/nuget/dt/Xam.Plugins.NepaliDatePicker?label=nuget&style=flat-square)](https://www.nuget.org/packages/Xam.Plugins.NepaliDatePicker/)    
+Nepali Date Picker for Xamarin Forms     
+[![Nuget Version (Xam.Plugins.NepaliDatePicker)](https://img.shields.io/nuget/v/Xam.Plugins.NepaliDatePicker)](https://www.nuget.org/packages/Xam.Plugins.NepaliDatePicker) 
+[![NuGet Downloads (Xam.Plugins.NepaliDatePicker)](https://img.shields.io/nuget/dt/Xam.Plugins.NepaliDatePicker?label=downloads&style=flat-square)](https://www.nuget.org/packages/Xam.Plugins.NepaliDatePicker/)    
 
 **Installation**   
 
